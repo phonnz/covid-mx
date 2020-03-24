@@ -27,23 +27,6 @@ const regionData = ({ region, data, date, emoji }) => {
   return header
 };
 
-const styles = {
-  region: {
-    borderWidth: 1,
-    backgroundColor: "#e0e0e0",
-    borderStyle: "solid",
-    borderColor: "#333",
-    marginBottom: 10,
-    padding: 5,
-  },
-  province: {
-    backgroundColor: "#dfdfdf",
-    display: "block",
-    margin: 5,
-  },
-  provinceText: {
-    fontSize: 16,
-  },
-};
+
 
 export default React.memo(regionData);
