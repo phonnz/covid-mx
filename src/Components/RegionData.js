@@ -1,6 +1,4 @@
 import React from 'react';
-// import { Platform, Text, View, StyleSheet, Image } from 'react-native';
-// import RegionHeader from './RegionHeader';
 
 const formatNumber = (number) => {
   if (number.length < 2) {
@@ -17,16 +15,13 @@ const regionData = ({ region, data, date, emoji }) => {
     const regionalData = data.filter(regionalFilter);
     return (
       <div>
-
         {regionalData.map(entry => (
           <article>
-
-          { formatNumber(entry[date]) } "-" {entry['Province/State'] || region}
-          
+          { formatNumber(entry[date]) } - {entry['Province/State'] || region} {emoji}
           </article>
           ))}
           </div>
-    );
+    )
   }
 
   return header

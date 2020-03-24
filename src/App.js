@@ -1,21 +1,51 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Papa from 'papaparse';
+import Chart from './Components/Chart';
 import RegionData from './Components/RegionData';
 import './App.css';
-import Chart from './Components/Chart';
 
 const endpoint =
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv';
 
+  const countries = [
+    "Mexico",
+    // "Italy",
+    "Thailand",
+    "Argentina"
+  ]
 
 
-class App extends React.PureComponent {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       jsonData: null,
       refreshing: false,
     };
+  }
+
+
+
+  transformData = (data, fields) => {
+    fields.shift()
+    fields.shift()
+    fields.shift()
+    fields.shift()
+    
+    data = (data.filter(row => countries.indexOf(row['Country/Region']) >= 0 ) )
+    let  new_data = []
+    console.log(data)
+    fields.forEach( field => {
+      console.log(field,Object.keys(data))
+      let new_row = { name: field, amt: 400 }
+      data.map(r => {
+        new_row[r['Country/Region']] = r[field]
+      })
+      new_data.push(new_row)
+    });
+    //   countries.map(country => {
+    // })
+    return new_data
   }
 
   reloadData() {
@@ -35,6 +65,7 @@ class App extends React.PureComponent {
         // TODO maybe remove everything except identifiers and `lastColumn`
         this.setState({
           jsonData: results.data,
+          data: this.transformData(results.data, fields),
           date: lastColumn,
           refreshing: false,
         });
@@ -55,12 +86,13 @@ class App extends React.PureComponent {
   }
 
   render() {
-    const { jsonData, date, refreshing } = this.state;
+    const { jsonData, data, date, refreshing } = this.state;
+
     return (
       <div>
 
           <RegionData data={jsonData} region="Mexico" emoji="🇲🇽" date={date} />
-          <Chart />
+          <Chart data={data} countries={countries} />
       </div>
       
     );
