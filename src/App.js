@@ -106,7 +106,7 @@ class App extends Component {
     return (
       <Container fluid>
           <RegionData data={jsonData} region="Mexico" emoji="🇲🇽" date={date} />
-          <Grid>
+          <Grid stackable>
             <Grid.Row>
               <Grid.Column width={8}>
                 <Chart data={data} countries={countries}  />
