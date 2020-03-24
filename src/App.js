@@ -2,26 +2,11 @@ import React from 'react';
 import Papa from 'papaparse';
 import RegionData from './Components/RegionData';
 import './App.css';
+import Chart from './Components/Chart';
 
 const endpoint =
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv';
 
-
-
-const styles = {
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-};
 
 
 class App extends React.PureComponent {
@@ -75,6 +60,7 @@ class App extends React.PureComponent {
       <div>
 
           <RegionData data={jsonData} region="Mexico" emoji="🇲🇽" date={date} />
+          <Chart />
       </div>
       
     );
