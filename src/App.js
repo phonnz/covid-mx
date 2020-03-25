@@ -7,11 +7,12 @@ import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
 const endpoint =
-  'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv';
+  'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv';
 
   const similarCountries = [
     "Argentina",
-    "Brasil",
+    "Brazil",
+    "Colombia",
     "Ecuador",
     "Peru",
     "Mexico",
@@ -20,7 +21,7 @@ const endpoint =
   const ngCountries = [
     "Italy",
     "Spain",
-    "Brasil",
+    "Brazil",
     "Mexico",
   ]
 
@@ -32,9 +33,10 @@ const endpoint =
   ]
 
   const wdCountries = [
-    "Korea",
+    "Korea, South",
     "Australia",
     "Singapore",
+    "Taiwan*",
     "Mexico",
   ]
 
@@ -57,17 +59,15 @@ class App extends Component {
     
     data = (data.filter(row => countries.indexOf(row['Country/Region']) >= 0 ) )
     let  new_data = []
-    // console.log(data)
+    
     fields.forEach( field => {
-      // console.log(field,Object.keys(data))
       let new_row = { name: field, amt: 2500 }
       data.map(r => {
         new_row[r['Country/Region']] = r[field]
       })
       new_data.push(new_row)
     });
-    //   countries.map(country => {
-    // })
+    
     return new_data
   }
 
@@ -89,10 +89,10 @@ class App extends Component {
 
         this.setState({
           jsonData: results.data,
-          similarData: this.transformData(results.data, similarCountries, fields.slice(45, -1)),
+          similarData: this.transformData(results.data, similarCountries, fields.slice(50, -1)),
           wdData: this.transformData(results.data, wdCountries, fields.slice(25, -1) ),
-          ngData: this.transformData(results.data, ngCountries, fields.slice(25, -1)),
-          extraData: this.transformData(results.data, extraCountries, fields.slice(45, -1)),
+          ngData: this.transformData(results.data, ngCountries, fields.slice(35, -1)),
+          extraData: this.transformData(results.data, extraCountries, fields.slice(55, -1)),
           date: lastColumn,
           refreshing: false,
         });
