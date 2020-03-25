@@ -29,7 +29,7 @@ class growChart extends Component {
     return (
       <ResponsiveContainer height={400}>
         <LineChart width={500} height={400} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: 0 }}>
-          <XAxis dataKey="Date" />
+          <XAxis dataKey="name" />
           <YAxis />
           <CartesianGrid strokeDasharray="25 25" />
           <Tooltip />
