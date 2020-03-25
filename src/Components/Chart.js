@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { ResponsiveContainer, Area, LineChart, Legend, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer, ReferenceLine, LineChart, Legend, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 
 
@@ -31,6 +31,7 @@ class growChart extends Component {
         <LineChart width={500} height={400} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: 0 }}>
           <XAxis dataKey="name" />
           <YAxis />
+          <ReferenceLine x="3/23/2020" stroke="red" label="Fase II MX" />
           <CartesianGrid strokeDasharray="25 25" />
           <Tooltip />
           <Legend />
