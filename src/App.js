@@ -22,6 +22,9 @@ const endpoint =
     "Italy",
     "Spain",
     "Brazil",
+    "United Kingdom",
+    "Germany",
+    "Sweden",
     "Mexico",
   ]
 
@@ -29,14 +32,17 @@ const endpoint =
     "Argentina",
     "Ecuador",
     "Paraguay",
+    "Peru",
     "Mexico",
   ]
 
   const wdCountries = [
     "Korea, South",
     "Australia",
+    "Germany",
     "Singapore",
     "Taiwan*",
+    "Peru",
     "Mexico",
   ]
 
@@ -89,10 +95,10 @@ class App extends Component {
 
         this.setState({
           jsonData: results.data,
-          similarData: this.transformData(results.data, similarCountries, fields.slice(50, -1)),
-          wdData: this.transformData(results.data, wdCountries, fields.slice(25, -1) ),
-          ngData: this.transformData(results.data, ngCountries, fields.slice(35, -1)),
-          extraData: this.transformData(results.data, extraCountries, fields.slice(55, -1)),
+          similarData: this.transformData(results.data, similarCountries, fields.slice(50, fields.length)),
+          wdData: this.transformData(results.data, wdCountries, fields.slice(35, fields.length) ),
+          ngData: this.transformData(results.data, ngCountries, fields.slice(40, fields.length)),
+          extraData: this.transformData(results.data, extraCountries, fields.slice(55, fields.length)),
           date: lastColumn,
           refreshing: false,
         });
@@ -131,18 +137,18 @@ class App extends Component {
                 <Chart data={similarData} countries={similarCountries}  />
               </Grid.Column>
               <Grid.Column width={8}>
-                <h2>Países con resultados positivos</h2>
+                <h2>Países que consiguen aplanar la curva</h2>
                 <Chart data={wdData} countries={wdCountries} />
                 
               </Grid.Column>
             </Grid.Row>
             <Grid.Row >
               <Grid.Column width={8}>
-                <h2>Países en contingencia</h2>
+                <h2>Países con acciones diferentes al resto del mundo</h2>
                 <Chart data={ngData} countries={ngCountries} />
               </Grid.Column>
               <Grid.Column width={8}>
-                <h2>Países con medidas inmediatas</h2>
+                <h2>Países con acciones en etapas tempranas</h2>
                 <Chart data={extraData} countries={extraCountries} />
               </Grid.Column>
             </Grid.Row>
