@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { AreaChart, Area, LineChart, Legend, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
+import { ResponsiveContainer, Area, LineChart, Legend, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
 
 
 
@@ -12,7 +12,8 @@ class growChart extends Component {
   }
 
 
-  getRandomColor = () => {
+  getRandomColor = (country) => {
+    if(country === "Mexico") return '#de2d1b'
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
@@ -26,19 +27,20 @@ class growChart extends Component {
   render() {
 
     return (
-        <LineChart width={800} height={500} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: 0 }}>
+      <ResponsiveContainer height={400}>
+        <LineChart width={500} height={400} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: 0 }}>
           <XAxis dataKey="Date" />
           <YAxis />
-          <CartesianGrid strokeDasharray="10 10" />
+          <CartesianGrid strokeDasharray="25 25" />
           <Tooltip />
           <Legend />
           {this.props.countries.map(country => {
             return (
-              <Line type="monotone" dataKey={country} stroke={this.getRandomColor()} />
+              <Line type="monotone" dataKey={country} stroke={this.getRandomColor(country)} />
             )
           })}
         </LineChart>
-
+        </ResponsiveContainer>
 
     )
   }

@@ -136,7 +136,7 @@ class App extends Component {
                 
               </Grid.Column>
             </Grid.Row>
-            <Grid.Row>
+            <Grid.Row >
               <Grid.Column width={8}>
                 <h2>Países en contingencia</h2>
                 <Chart data={ngData} countries={ngCountries} />
