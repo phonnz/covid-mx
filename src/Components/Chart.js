@@ -27,15 +27,11 @@ class growChart extends Component {
 
     return (
         <LineChart width={800} height={500} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: 0 }}>
-
-
           <XAxis dataKey="Date" />
           <YAxis />
           <CartesianGrid strokeDasharray="10 10" />
           <Tooltip />
           <Legend />
-
-
           {this.props.countries.map(country => {
             return (
               <Line type="monotone" dataKey={country} stroke={this.getRandomColor()} />

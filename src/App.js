@@ -9,23 +9,34 @@ import './App.css';
 const endpoint =
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_19-covid-Confirmed.csv';
 
-  const countries = [
+  const similarCountries = [
     "Argentina",
-    // "Bolivia",
+    "Brasil",
     "Ecuador",
     "Peru",
     "Mexico",
-    // "Italy",
-    "Thailand",
   ]
 
-
-  const otherCountries = [
-    "Spain",
+  const ngCountries = [
     "Italy",
-    
+    "Spain",
+    "Brasil",
+    "Mexico",
   ]
 
+  const extraCountries = [
+    "Argentina",
+    "Ecuador",
+    "Paraguay",
+    "Mexico",
+  ]
+
+  const wdCountries = [
+    "Korea",
+    "Australia",
+    "Singapore",
+    "Mexico",
+  ]
 
 class App extends Component {
   constructor(props) {
@@ -70,7 +81,7 @@ class App extends Component {
         } = results;
         const { refreshing } = this.state;
         const lastColumn = fields[fields.length - 1];
-        if (refreshing === true) { // Triggered via pull-to-refresh
+        if (refreshing === true) { 
           console.log("Updated via pull-to-refresh")
         }
 
@@ -78,9 +89,10 @@ class App extends Component {
 
         this.setState({
           jsonData: results.data,
-          data: this.transformData(results.data, countries, fields),
-          secondSegment: this.transformData(results.data, countries, ( fields.slice(45, -1)) ),
-          thirdSegment: this.transformData(results.data, otherCountries, fields),
+          similarData: this.transformData(results.data, similarCountries, fields.slice(45, -1)),
+          wdData: this.transformData(results.data, wdCountries, fields.slice(25, -1) ),
+          ngData: this.transformData(results.data, ngCountries, fields.slice(25, -1)),
+          extraData: this.transformData(results.data, extraCountries, fields.slice(45, -1)),
           date: lastColumn,
           refreshing: false,
         });
@@ -101,7 +113,13 @@ class App extends Component {
   }
 
   render() {
-    const { jsonData, data, date, refreshing, secondSegment, thirdSegment } = this.state;
+    const { jsonData, 
+      date, 
+      similarData,
+      wdData,
+      ngData,
+      extraData 
+      } = this.state;
 
     return (
       <Container fluid>
@@ -109,19 +127,23 @@ class App extends Component {
           <Grid stackable>
             <Grid.Row>
               <Grid.Column width={8}>
-                <Chart data={data} countries={countries}  />
+                <h2>Países similares en LatAm</h2>
+                <Chart data={similarData} countries={similarCountries}  />
               </Grid.Column>
               <Grid.Column width={8}>
-                <Chart data={secondSegment} countries={countries} />
+                <h2>Países con resultados positivos</h2>
+                <Chart data={wdData} countries={wdCountries} />
                 
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={8}>
-                <Chart data={thirdSegment} countries={otherCountries} />
+                <h2>Países en contingencia</h2>
+                <Chart data={ngData} countries={ngCountries} />
               </Grid.Column>
               <Grid.Column width={8}>
-                
+                <h2>Países con medidas inmediatas</h2>
+                <Chart data={extraData} countries={extraCountries} />
               </Grid.Column>
             </Grid.Row>
           </Grid>
