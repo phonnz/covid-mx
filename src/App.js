@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container, Grid, GridColumn } from 'semantic-ui-react'
 import Papa from 'papaparse';
 import Chart from './Components/Chart';
-import RegionData from './Components/RegionData';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
@@ -40,6 +39,11 @@ class App extends Component {
     return new_data
   }
 
+  maxCases(data, date, country){
+    return (data.filter(row => row['Country/Region'] === country))[0][date]
+    
+  }
+
   reloadData() {
     Papa.parse(endpoint, {
       download: true,
@@ -63,7 +67,7 @@ class App extends Component {
           optionData: this.transformData(results.data, countries, fields.slice(40, fields.length), 'option'),
           earlyData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'early'),
           date: lastColumn,
-          // mxacccases:,
+          mxacccases: this.maxCases(results.data, lastColumn, "Mexico"),
           refreshing: false,
         });
       },
@@ -94,7 +98,7 @@ class App extends Component {
 
     return (
       <Container fluid>
-          <RegionData data={jsonData} region="Mexico" emoji="🇲🇽" date={date} />
+        <h1>{this.state.mxacccases} casos conmfirmados en Mexico 🇲🇽 al {this.state.date} </h1>
           <Grid stackable>
             <Grid.Row>
               <Grid.Column width={8}>
