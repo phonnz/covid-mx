@@ -31,13 +31,14 @@ class growChart extends Component {
         <LineChart width={500} height={400} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: 0 }}>
           <XAxis dataKey="name" />
           <YAxis />
-          <ReferenceLine x="3/23/2020" stroke="red" label="Fase II MX" />
+          {/* <ReferenceLine x="3/23/2020" stroke="black" /> */}
+          {/* <ReferenceLine x="3/22/2020" stroke="red" label="Fase II MX" /> */}
           <CartesianGrid strokeDasharray="25 25" />
           <Tooltip />
-          <Legend />
+          <Legend label="Confirmados acumulados" />
           {this.props.countries.map(country => {
             return (
-              <Line type="monotone" dataKey={country} stroke={this.getRandomColor(country)} />
+              <Line key={country.key} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} label={country.name} />
             )
           })}
         </LineChart>
