@@ -5,7 +5,9 @@ module.exports.countries =  [
     option: false,
     wd: true,
     early:true,
-    inflectiona: '3/13/2020'
+    inflectiona: '3/13/2020',
+    isolationa: '3/16/2020',
+    isolationb: '3/20/2020',
   },
     {key: "Brazil",
     name: "Brasil",
@@ -13,7 +15,8 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early:false,
-    inflectiona: '3/13/2020'
+    inflectiona: '3/13/2020',
+    closingBorder: '3/13/2020',
   },
     {key: "Colombia",
     name: "Colombia",
@@ -45,7 +48,8 @@ module.exports.countries =  [
     option: true,
     wd: true,
     early:true,
-    inflectiona: '3/13/2020'
+    inflectiona: '3/13/2020',
+    isolationb: '3/23/2020',
   },
     {key: "Italy",
     name: "Italia",
