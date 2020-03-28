@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Grid, GridColumn } from 'semantic-ui-react'
+import { Container, Grid, GridColumn, Divider } from 'semantic-ui-react'
 import Papa from 'papaparse';
 import axios from 'axios'
 import Chart from './Components/Chart';
@@ -182,6 +182,13 @@ class App extends Component {
               </Grid.Column>
             </Grid.Row>
           </Grid>
+          <Divider />
+          <Container text>
+            <p>Cualquier comentario, duda o sugerencia puedes comentarme <a href="https://twitter.com/phonnz/" target="_blank">@phonnz</a> <a href="https://github.com/phonnz/covid-mx" target="_blank">Github</a></p>
+            <p>Inspirado en la prueba de <a href="https://snack.expo.io/@xnt/coronavirus-ca" target="_blank">@xnt</a> el dashboard de <a href="https://covid.sdelmont.com/" target="_blank">@sd</a></p>
+            <p><a href="https://experience.arcgis.com/experience/685d0ace521648f8a5beeeee1b9125cd" target="_blank">WHO</a> | <a href="https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6" target="_blank">JHU</a> | <a href="https://covid19.isciii.es/" target="_blank">ISC</a></p>
+            <p>Datos de: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank">JHU</a></p>
+          </Container>
       </Container>
       
     );
