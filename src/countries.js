@@ -54,7 +54,7 @@ module.exports.countries =  [
     {key: "Italy",
     name: "Italia",
     similar: false,
-    option: true,
+    option: false,//temporary
     wd: false,
     early: false,
     inflectiona: '3/13/2020'
