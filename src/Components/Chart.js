@@ -38,11 +38,11 @@ class growChart extends Component {
           {this.props.countries.map(country => {
 
               if(country.key == "Mexico"){
-                return (<Line key={country.key} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} label={country.name} dot={Mexico}  />)
+                return (<Line key={country.key} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} strokeWidth={3} label={country.name} dot={Mexico}  />)
                 
               }  else {
                 
-                return (<Line key={country.key} type="monotone" dataKey={country.key }  stroke={this.getRandomColor(country)} label={country.name} dot={false} /> )
+                return (<Line key={country.key} type="monotone" dataKey={country.key }  stroke={this.getRandomColor(country)} strokeWidth={0.5} label={country.name} dot={false} /> )
               }
 
           })}
