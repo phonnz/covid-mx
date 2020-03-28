@@ -3,6 +3,7 @@ import { Container, Grid, GridColumn } from 'semantic-ui-react'
 import Papa from 'papaparse';
 import axios from 'axios'
 import Chart from './Components/Chart';
+
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
@@ -89,11 +90,11 @@ class App extends Component {
           date: lastColumn,
           refreshing: false,
           jsonData: exclusiveData,
-          similarData: this.transformData(results.data, countries, fields.slice(50, fields.length), 'similar'),
-          wdData: this.transformData(results.data, countries, fields.slice(35, fields.length), 'wd' ),
-          optionData: this.transformData(results.data, countries, fields.slice(40, fields.length), 'option'),
-          earlyData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'early'),
-          // mxacccases: this.maxCases(results.data, lastColumn, "Mexico"),
+          // similarData: this.transformData(results.data, countries, fields.slice(50, fields.length), 'similar'),
+          // wdData: this.transformData(results.data, countries, fields.slice(35, fields.length), 'wd' ),
+          // optionData: this.transformData(results.data, countries, fields.slice(40, fields.length), 'option'),
+          // earlyData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'early'),
+          mxacccases: this.maxCases(results.data, lastColumn, "Mexico"),
         });
         
       },
@@ -119,12 +120,12 @@ class App extends Component {
         // console.log(exclusiveData)
         this.setState({
           date: lastColumn,
-          jsonData: exclusiveData,
-          // similarData: this.transformData(results.data, countries, fields.slice(50, fields.length), 'similar'),
-          // wdData: this.transformData(results.data, countries, fields.slice(35, fields.length), 'wd' ),
-          // optionData: this.transformData(results.data, countries, fields.slice(40, fields.length), 'option'),
-          // earlyData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'early'),
-          mxacccases: this.maxCases(results.data, lastColumn, "Mexico"),
+          deathsData: exclusiveData,
+          similarData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'similar'),
+          wdData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'wd' ),
+          optionData: this.transformData(results.data, countries, fields.slice(48, fields.length), 'option'),
+          earlyData: this.transformData(results.data, countries, fields.slice(45, fields.length), 'early'),
+          // mxacccases: this.maxCases(results.data, lastColumn, "Mexico"),
         });
         
       },
@@ -133,9 +134,9 @@ class App extends Component {
 
 
   componentDidMount() {
-    this.getInfectedData(hopkins_deaths);
+    this.getInfectedData(hopkins_confirmed);
     // this.getTestData(owid_test_m) 
-    this.getDeathsData(hopkins_confirmed)
+    this.getDeathsData(hopkins_deaths)
   }
 
   onRefresh() {

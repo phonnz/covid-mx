@@ -111,7 +111,7 @@ module.exports.countries =  [
     name: "Korea del sur",
     similar: false,
     option: false,
-    wd: true,
+    wd: false,//temporary
     early: false,
     inflectiona: '3/13/2020'
   },

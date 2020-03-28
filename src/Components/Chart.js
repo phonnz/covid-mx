@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { ResponsiveContainer, ReferenceLine, LineChart, Legend, Line, CartesianGrid, XAxis, YAxis, Tooltip } from 'recharts';
-
-
-
+import { Flag } from 'semantic-ui-react'
+import Mexico from './Flags/Mexico';
 
 class growChart extends Component {
   state = {
@@ -13,7 +12,7 @@ class growChart extends Component {
 
 
   getRandomColor = (country) => {
-    if(country === "Mexico") return '#de2d1b'
+    if(country.key === "Mexico") return '#de2d1b'
     var letters = '0123456789ABCDEF';
     var color = '#';
     for (var i = 0; i < 6; i++) {
@@ -28,18 +27,24 @@ class growChart extends Component {
 
     return (
       <ResponsiveContainer height={400}>
-        <LineChart width={500} height={400} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: 0 }}>
+        <LineChart width={500} height={400} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: -15 }}>
           <XAxis dataKey="name" />
-          <YAxis />
-          {/* <ReferenceLine x="3/23/2020" stroke="black" /> */}
-          {/* <ReferenceLine x="3/22/2020" stroke="red" label="Fase II MX" /> */}
+          <YAxis  type="number" label={{ value: 'Fallecidos', angle: -90, position: 'insideLeft' }} />
+          {/* <ReferenceLine y={75} label="Max" stroke="red" /> */}
+          <ReferenceLine x='3/22/20' stroke="red" label="Fase II MX" />
           <CartesianGrid strokeDasharray="25 25" />
           <Tooltip />
           <Legend label="Confirmados acumulados" />
           {this.props.countries.map(country => {
-            return (
-              <Line key={country.key} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} label={country.name} />
-            )
+
+              if(country.key == "Mexico"){
+                return (<Line key={country.key} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} label={country.name} dot={Mexico}  />)
+                
+              }  else {
+                
+                return (<Line key={country.key} type="monotone" dataKey={country.key }  stroke={this.getRandomColor(country)} label={country.name} dot={false} /> )
+              }
+
           })}
         </LineChart>
         </ResponsiveContainer>
