@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { Container, Grid, GridColumn } from 'semantic-ui-react'
 import Papa from 'papaparse';
+import axios from 'axios'
 import Chart from './Components/Chart';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
 const {countries } = require('./countries')
-const endpoint =
+const hopkins_confirmed =
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv';
-
+const owid_tests_date = 'https://opendata.ecdc.europa.eu/covid19/casedistribution/csv'
+const owid_test_m = 'https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/COVID-19%20Tests%20per%20million%20people/COVID-19%20Tests%20per%20million%20people.csv'
   
 
 class App extends Component {
@@ -17,7 +19,8 @@ class App extends Component {
     this.state = {
       jsonData: null,
       refreshing: false,
-      mxacccases: 425,
+      mxacccases: 475,
+      mxTests: 278,
     };
   }
 
@@ -39,29 +42,50 @@ class App extends Component {
     return new_data
   }
 
+  getTestData = (url) => {
+    Papa.parse(url, {
+      download: true,
+      header: true,
+      complete: results => {  
+
+        const {
+          meta: { fields }
+        } = results;
+        
+        const countryKeys = countries.map(country => country.key)
+        this.setState({
+          accTests: results.data.filter(row => countryKeys.indexOf(row['Entity']) >= 0 )
+        })
+        //    const countryKeys = countries.map(country => country.key)
+        // const exclusiveData = results.data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0 )
+      }})
+      
+  }
+
   maxCases(data, date, country){
     return (data.filter(row => row['Country/Region'] === country))[0][date]
     
   }
 
   reloadData() {
-    Papa.parse(endpoint, {
+    Papa.parse(hopkins_confirmed, {
       download: true,
       header: true,
-      complete: results => {
+      complete: results => {  
+
         const {
-          meta: { fields },
+          meta: { fields }
         } = results;
-        const { refreshing } = this.state;
+        // const { refreshing } = this.state;
         const lastColumn = fields[fields.length - 1];
-        if (refreshing === true) { 
-          console.log("Updated via pull-to-refresh")
-        }
-
-        
-
+        // if (refreshing === true) { 
+        //   console.log("Updated via pull-to-refresh")
+        // }
+        const countryKeys = countries.map(country => country.key)
+        const exclusiveData = results.data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0 )
+        // console.log(exclusiveData)
         this.setState({
-          jsonData: results.data,
+          jsonData: exclusiveData,
           similarData: this.transformData(results.data, countries, fields.slice(50, fields.length), 'similar'),
           wdData: this.transformData(results.data, countries, fields.slice(35, fields.length), 'wd' ),
           optionData: this.transformData(results.data, countries, fields.slice(40, fields.length), 'option'),
@@ -70,13 +94,15 @@ class App extends Component {
           mxacccases: this.maxCases(results.data, lastColumn, "Mexico"),
           refreshing: false,
         });
+        
       },
     });
   }
 
+
   componentDidMount() {
-    console.log(countries)
     this.reloadData();
+    this.getTestData(owid_test_m) 
   }
 
   onRefresh() {
@@ -98,7 +124,7 @@ class App extends Component {
 
     return (
       <Container fluid>
-        <h1>{this.state.mxacccases} casos conmfirmados en Mexico 🇲🇽 al {this.state.date} </h1>
+        <h1>{this.state.mxacccases} casos confirmados en México 🇲🇽 al {this.state.date} </h1>
           <Grid stackable>
             <Grid.Row>
               <Grid.Column width={8}>
