@@ -36,7 +36,7 @@ class App extends Component {
     let  new_data = []
     
     fields.slice(4, fields.length).forEach( field => {
-      let new_row = { name: field, amt: 1500 }
+      let new_row = { name: field, amt: 500 }
       data.map(r => {
         new_row[r['Country/Region']] = r[field]
       })
