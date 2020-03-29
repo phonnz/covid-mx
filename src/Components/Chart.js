@@ -27,22 +27,22 @@ class growChart extends Component {
 
     return (
       <ResponsiveContainer height={400}>
-        <LineChart width={500} height={400} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: -15 }}>
+        <LineChart width={500} height={450} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: -15 }}>
           <XAxis dataKey="name" />
-          <YAxis  type="number" label={{ value: 'Fallecidos', angle: -90, position: 'insideLeft' }}  />
+          <YAxis  type="number" label={{ value: 'Fallecidos', angle: 0, position: 'insideTopRight' }} domain={['auto', 'auto']} />
           {/* <ReferenceLine y={75} label="Max" stroke="red" /> */}
           <ReferenceLine x='3/22/20' stroke="red" label="Fase II MX" />
           <CartesianGrid strokeDasharray="25 25" />
           <Tooltip />
           <Legend label="Confirmados acumulados" />
-          {this.props.countries.map(country => {
+          {this.props.countries.map((country, idx) => {
 
               if(country.key == "Mexico"){
-                return (<Line key={country.key} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} strokeWidth={3} label={country.name} dot={Mexico}  />)
+                return (<Line key={idx} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} strokeWidth={3} label={country.name} dot={Mexico}  />)
                 
               }  else {
                 
-                return (<Line key={country.key} type="monotone" dataKey={country.key }  stroke={this.getRandomColor(country)} strokeWidth={0.5} label={country.name} dot={false} /> )
+                return (<Line key={idx} type="monotone" dataKey={country.key }  stroke={this.getRandomColor(country)} strokeWidth={0.5} label={country.name} dot={false} /> )
               }
 
           })}

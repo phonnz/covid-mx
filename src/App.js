@@ -19,9 +19,11 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      jsonData: null,
+      infectedData: null,
+      deathsData: null,
       refreshing: false,
-      mxacccases: 475,
+      mxAccCases: 585,
+      mxAccDeaths: 12,
       mxTests: 278,
     };
   }
@@ -89,12 +91,12 @@ class App extends Component {
         this.setState({
           date: lastColumn,
           refreshing: false,
-          jsonData: exclusiveData,
-          // similarData: this.transformData(results.data, countries, fields.slice(50, fields.length), 'similar'),
-          // wdData: this.transformData(results.data, countries, fields.slice(35, fields.length), 'wd' ),
-          // optionData: this.transformData(results.data, countries, fields.slice(40, fields.length), 'option'),
-          // earlyData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'early'),
-          mxacccases: this.maxCases(results.data, lastColumn, "Mexico"),
+          infectedData: exclusiveData,
+          similarIData: this.transformData(results.data, countries, fields.slice(50, fields.length), 'similar'),
+          wdIData: this.transformData(results.data, countries, fields.slice(40, fields.length), 'wd' ),
+          optionIData: this.transformData(results.data, countries, fields.slice(45, fields.length), 'option'),
+          earlyIData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'early'),
+          mxAccCases: this.maxCases(results.data, lastColumn, "Mexico"),
         });
         
       },
@@ -121,11 +123,11 @@ class App extends Component {
         this.setState({
           date: lastColumn,
           deathsData: exclusiveData,
-          similarData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'similar'),
-          wdData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'wd' ),
-          optionData: this.transformData(results.data, countries, fields.slice(48, fields.length), 'option'),
-          earlyData: this.transformData(results.data, countries, fields.slice(45, fields.length), 'early'),
-          // mxacccases: this.maxCases(results.data, lastColumn, "Mexico"),
+          similarDData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'similar'),
+          wdDData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'wd' ),
+          optionDData: this.transformData(results.data, countries, fields.slice(48, fields.length), 'option'),
+          earlyDData: this.transformData(results.data, countries, fields.slice(45, fields.length), 'early'),
+          mxAccDeaths: this.maxCases(results.data, lastColumn, "Mexico"),
         });
         
       },
@@ -150,35 +152,60 @@ class App extends Component {
   render() {
     const { jsonData, 
       date, 
-      similarData,
-      wdData,
-      earlyData,
-      optionData 
+      similarIData,
+      wdIData,
+      earlyIData,
+      optionIData, 
+      similarDData,
+      wdDData,
+      earlyDData,
+      optionDData, 
       } = this.state;
 
     return (
       <Container fluid>
-        <h1>{this.state.mxacccases} casos confirmados en México 🇲🇽 al {this.state.date} </h1>
+        <h1>{this.state.mxAccCases} casos confirmados y {this.state.mxAccDeaths} fallecidos en México 🇲🇽 al {this.state.date} </h1>
           <Grid stackable>
             <Grid.Row>
               <Grid.Column width={8}>
                 <h3>Fallecidos por covid-19 en países similares en LatAm</h3>
-                <Chart data={similarData} countries={countries.filter(c => c.similar )}  />
+                <Chart data={similarDData} countries={countries.filter(c => c.similar )} date={this.state.date} />
               </Grid.Column>
               <Grid.Column width={8}>
                 <h3>Fallecidos por covid-19 en países que consiguen aplanar la curva</h3>
-                <Chart data={wdData} countries={countries.filter(c => c.wd )} />
+                <Chart data={wdDData} countries={countries.filter(c => c.wd )} />
                 
               </Grid.Column>
             </Grid.Row>
             <Grid.Row >
               <Grid.Column width={8}>
                 <h3>Fallecidos por covid-19 en países con acciones diferentes al resto del mundo</h3>
-                <Chart data={optionData} countries={countries.filter(c => c.option )} />
+                <Chart data={optionDData} countries={countries.filter(c => c.option )} />
               </Grid.Column>
               <Grid.Column width={8}>
                 <h3>Fallecidos por covid-19 en países con acciones en etapas tempranas</h3>
-                <Chart data={earlyData} countries={countries.filter(c => c.early )} />
+                <Chart data={earlyDData} countries={countries.filter(c => c.early )} />
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Column width={8}>
+                <h3>Confirmados por covid-19 en países similares en LatAm</h3>
+                <Chart data={similarIData} countries={countries.filter(c => c.similar )}  />
+              </Grid.Column>
+              <Grid.Column width={8}>
+                <h3>Confirmados por covid-19 en países que consiguen aplanar la curva</h3>
+                <Chart data={wdIData} countries={countries.filter(c => c.wd )} />
+                
+              </Grid.Column>
+            </Grid.Row>
+            <Grid.Row >
+              <Grid.Column width={8}>
+                <h3>Confirmados por covid-19 en países con acciones diferentes al resto del mundo</h3>
+                <Chart data={optionIData} countries={countries.filter(c => c.option )} />
+              </Grid.Column>
+              <Grid.Column width={8}>
+                <h3>Confirmados por covid-19 en países con acciones en etapas tempranas</h3>
+                <Chart data={earlyIData} countries={countries.filter(c => c.early )} />
               </Grid.Column>
             </Grid.Row>
           </Grid>
