@@ -5,18 +5,19 @@ module.exports.countries =  [
     option: false,
     wd: true,
     early:true,
-    inflectiona: '3/13/2020',
-    isolationa: '3/16/2020',
+    isolationa: '3/12/2020',
+    isolationb: '3/17/2020',
     isolationb: '3/20/2020',
   },
     {key: "Brazil",
     name: "Brasil",
+    color: "#0cff0c",
     similar: true,
     option: true,
     wd: false,
     early:false,
-    inflectiona: '3/13/2020',
-    closingBorder: '3/13/2020',
+    // isolationb: '3/13/2020',
+    // isolationa: '3/13/2020',
   },
     {key: "Colombia",
     name: "Colombia",
@@ -24,7 +25,7 @@ module.exports.countries =  [
     option: false,
     wd: false,
     early:true,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
     {key: "Ecuador",
     name: "Ecuador",
@@ -32,7 +33,7 @@ module.exports.countries =  [
     option: false,
     wd: false,
     early:false,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
     {key: "Peru",
     name: "Perú",
@@ -40,7 +41,7 @@ module.exports.countries =  [
     option: false,
     wd: true,
     early:true,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
     {key: "Mexico",
     name: "México",
@@ -48,7 +49,7 @@ module.exports.countries =  [
     option: true,
     wd: true,
     early:true,
-    inflectiona: '3/13/2020',
+    isolationa: '3/13/2020',
     isolationb: '3/23/2020',
   },
     {key: "Italy",
@@ -57,7 +58,8 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early: false,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020',
+    inflectionb: '3/9/2020'
   },
     {key: "Spain",
     name: "España",
@@ -65,7 +67,7 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early: false,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
     {key: "United Kingdom",
     name: "UK",
@@ -73,7 +75,7 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early: false,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
     {key: "Germany",
     name: "Alemania",
@@ -81,7 +83,7 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early: false,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
     {key: "Sweden",
     name: "Suecia",
@@ -89,7 +91,7 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early: false,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
   {key: "Taiwan*",
     name: "Taiwan",
@@ -97,7 +99,7 @@ module.exports.countries =  [
     option: false,
     wd: true,
     early: true,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
   {key: "Paraguay",
     name: "Paraguay",
@@ -105,7 +107,7 @@ module.exports.countries =  [
     option: false,
     wd: true,
     early: true,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
   {key: "Korea, South",
     name: "Korea del sur",
@@ -113,7 +115,7 @@ module.exports.countries =  [
     option: false,
     wd: true,
     early: false,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
   {key: "Australia",
     name: "Australia",
@@ -121,7 +123,7 @@ module.exports.countries =  [
     option: false,
     wd: true,
     early: true,
-    inflectiona: '3/13/2020'
+    isolationa: '3/13/2020'
   },
   {key: "Singapore",
   name: "Singapur",
@@ -129,7 +131,7 @@ module.exports.countries =  [
   option: false,
   wd: true,
   early: true,
-  inflectiona: '3/13/2020'
+  isolationa: '3/13/2020'
   },
   {key: "Netherlands",
   name: "Países Bajos",
@@ -137,7 +139,15 @@ module.exports.countries =  [
   option: true,
   wd: false,
   early: false,
-  inflectiona: '3/13/2020'
+  // isolationa: '3/13/2020'
+  },
+  {key: "US",
+  name: "US",
+  similar: false,
+  option: true,
+  wd: false,
+  early: false,
+  isolationa: '3/19/2020'
   },
   
 ]
