@@ -3,6 +3,12 @@ import { ResponsiveContainer, ReferenceLine, LineChart, Legend, Line, CartesianG
 // import {  } from 'semantic-ui-react'
 import Mexico from './Flags/Mexico';
 
+const CustomizedLabel = props => {
+  const {x, y, stroke, value} = props;
+  
+  return <text x={x} y={y} dy={-4} fill={stroke} fontSize={10} textAnchor="middle" fill="white">{value}</text>
+}
+
 class growChart extends Component {
   state = {
     chartData: [
@@ -29,17 +35,16 @@ class growChart extends Component {
         <LineChart width={500} height={450} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: -15 }}>
           <XAxis dataKey="name" />
           <YAxis  type="number" label={{ value: 'Fallecidos', angle: 90, position: 'insideLeft', fill: 'white' }} domain={['auto', 'auto']} />
-          <ReferenceLine x='3/22/20' stroke="red" label={<Label value="FASE II MX" fill={'white'}  /> } textAnchor={'start'} />
-          <ReferenceLine x='3/17/20' stroke="red" label={<Label value="FASE I AR" fill={'white'}  /> } textAnchor={'start'} />
-          <ReferenceLine x='3/20/20' stroke="red" label={<Label value="FASE II AR" fill={'white'}  /> } textAnchor={'start'} />
+          <ReferenceLine x='3/22/20' stroke="red" label={<Label value="F-II-MX" fill={'white'} textAnchor={'start'} /> }  />
+          <ReferenceLine x='3/17/20' stroke="red" label={<Label value="F-I-AR" fill={'white'} textAnchor={'start'} /> }  />
+          <ReferenceLine x='3/20/20' stroke="red" label={<Label value="F-II-AR" fill={'white'} textAnchor={'middle'} /> }  />
           
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip itemStyle={{  backgroundColor: '#363738' }} contentStyle={{backgroundColor: '#363738'}} wrapperStyle={{ backgroundColor: '#363738', border: '1px solid #fff', borderRadius: 3 }} />
           <Legend  wrapperStyle={{ left: '10', backgroundColor: '#363738', border: '1px solid #d5d5d5', borderRadius: 3 }}/>
           {this.props.countries.map((country, idx) => {
-
               if(country.key === "Mexico"){
-                return (<Line key={idx} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} strokeWidth={3} label={country.name}   />)
+                return (<Line key={idx} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} strokeWidth={3}  dot={<Mexico />} />)
                 
               }  else {
                 
