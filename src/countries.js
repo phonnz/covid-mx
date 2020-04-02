@@ -7,7 +7,7 @@ module.exports.countries =  [
     early:true,
     isolationa: '3/12/2020',
     isolationb: '3/17/2020',
-    isolationb: '3/20/2020',
+    isolationc: '3/20/2020',
   },
     {key: "Brazil",
     name: "Brasil",

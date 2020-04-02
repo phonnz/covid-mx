@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Container, Grid, GridColumn, Divider } from 'semantic-ui-react'
-import Papa from 'papaparse';
-import axios from 'axios'
+import { Container, Grid, Divider } from 'semantic-ui-react'
+import Papa from 'papaparse'
 import Chart from './Components/Chart';
 
 import 'semantic-ui-css/semantic.min.css';
