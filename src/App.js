@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { Container, Grid, Divider } from 'semantic-ui-react'
 import Papa from 'papaparse'
 import Chart from './Components/Chart';
+import _ from 'lodash'
 
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
 const {countries } = require('./countries')
 const hopkins_confirmed =
-  'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv';
+  'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
+  
 const hopkins_deaths = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv'
 const owid_tests_date = 'https://opendata.ecdc.europa.eu/covid19/casedistribution/csv'
 const owid_test_m = 'https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/COVID-19%20Tests%20per%20million%20people/COVID-19%20Tests%20per%20million%20people.csv'
@@ -80,22 +82,40 @@ class App extends Component {
           meta: { fields }
         } = results;
         // const { refreshing } = this.state;
-        const lastColumn = fields[fields.length - 1];
+        const currentDate = fields[fields.length - 1];
         // if (refreshing === true) { 
         //   console.log("Updated via pull-to-refresh")
         // }
         const countryKeys = countries.map(country => country.key)
-        const exclusiveData = results.data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0 )
-        // console.log(exclusiveData)
+        let exclusiveData = results.data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0 )
+        
+        
+        let new_data = _(exclusiveData).groupBy('Country/Region').value()
+        
+        new_data = Object.keys(new_data).map(country => {
+          let zip_country = { 'Country/Region': country, } 
+          
+          fields.slice(4, fields.length).map(day => {
+            let sum = 0
+            for(var i = 0; i<new_data[country].length; i++){
+              sum += parseInt(new_data[country][i][day])
+            }
+            zip_country[day] = sum
+            
+          })
+
+          return zip_country
+          
+        })
+
         this.setState({
-          date: lastColumn,
-          refreshing: false,
-          infectedData: exclusiveData,
-          similarIData: this.transformData(results.data, countries, fields.slice(50, fields.length), 'similar'),
-          wdIData: this.transformData(results.data, countries, fields.slice(40, fields.length), 'wd' ),
-          optionIData: this.transformData(results.data, countries, fields.slice(45, fields.length), 'option'),
-          earlyIData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'early'),
-          mxAccCases: this.maxCases(results.data, lastColumn, "Mexico"),
+          currentDate,
+          infectedData: new_data,
+          similarIData: this.transformData(new_data, countries, fields.slice(50, fields.length), 'similar'),
+          wdIData: this.transformData(new_data, countries, fields.slice(40, fields.length), 'wd' ),
+          optionIData: this.transformData(new_data, countries, fields.slice(45, fields.length), 'option'),
+          earlyIData: this.transformData(new_data, countries, fields.slice(55, fields.length), 'early'),
+          mxAccCases: this.maxCases(new_data, currentDate, "Mexico"),
         });
         
       },
@@ -111,22 +131,36 @@ class App extends Component {
         const {
           meta: { fields }
         } = results;
-        // const { refreshing } = this.state;
-        const lastColumn = fields[fields.length - 1];
-        // if (refreshing === true) { 
-        //   console.log("Updated via pull-to-refresh")
-        // }
+        const currentDate = fields[fields.length - 1];
+        
         const countryKeys = countries.map(country => country.key)
         const exclusiveData = results.data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0 )
-        // console.log(exclusiveData)
+        let new_data = _(exclusiveData).groupBy('Country/Region').value()
+        
+        new_data = Object.keys(new_data).map(country => {
+          let zip_country = { 'Country/Region': country, } 
+          
+          fields.slice(4, fields.length).map(day => {
+            let sum = 0
+            for(var i = 0; i<new_data[country].length; i++){
+              sum += parseInt(new_data[country][i][day])
+            }
+            zip_country[day] = sum
+            
+          })
+
+          return zip_country
+          
+        })
+
         this.setState({
-          date: lastColumn,
-          deathsData: exclusiveData,
-          similarDData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'similar'),
-          wdDData: this.transformData(results.data, countries, fields.slice(55, fields.length), 'wd' ),
-          optionDData: this.transformData(results.data, countries, fields.slice(48, fields.length), 'option'),
-          earlyDData: this.transformData(results.data, countries, fields.slice(45, fields.length), 'early'),
-          mxAccDeaths: this.maxCases(results.data, lastColumn, "Mexico"),
+          currentDate,
+          deathsData: new_data,
+          similarDData: this.transformData(new_data, countries, fields.slice(55, fields.length), 'similar'),
+          wdDData: this.transformData(new_data, countries, fields.slice(55, fields.length), 'wd' ),
+          optionDData: this.transformData(new_data, countries, fields.slice(48, fields.length), 'option'),
+          earlyDData: this.transformData(new_data, countries, fields.slice(45, fields.length), 'early'),
+          mxAccDeaths: this.maxCases(new_data, currentDate, "Mexico"),
         });
         
       },
@@ -163,48 +197,48 @@ class App extends Component {
 
     return (
       <Container fluid>
-        <h1>{this.state.mxAccCases} casos confirmados y {this.state.mxAccDeaths} fallecidos en México 🇲🇽 al {this.state.date} </h1>
+        <h1> {this.state.mxAccCases} casos confirmados y {this.state.mxAccDeaths} fallecidos en México 🇲🇽 al {this.state.currentDate} </h1>
           <Grid stackable>
             <Grid.Row>
               <Grid.Column width={8}>
                 <h3>Fallecidos por covid-19 en países similares en LatAm</h3>
-                <Chart data={similarDData} countries={countries.filter(c => c.similar )} date={this.state.date} />
+                <Chart data={similarDData} countries={countries.filter(c => c.similar )} date={this.state.currentDate} max={this.state.mxAccDeaths} />
               </Grid.Column>
               <Grid.Column width={8}>
                 <h3>Fallecidos por covid-19 en países que consiguen aplanar la curva</h3>
-                <Chart data={wdDData} countries={countries.filter(c => c.wd )} />
+                <Chart data={wdDData} countries={countries.filter(c => c.wd )} max={this.state.mxAccDeaths} />
                 
               </Grid.Column>
             </Grid.Row>
             <Grid.Row >
               <Grid.Column width={8}>
                 <h3>Fallecidos por covid-19 en países con acciones diferentes al resto del mundo</h3>
-                <Chart data={optionDData} countries={countries.filter(c => c.option )} />
+                <Chart data={optionDData} countries={countries.filter(c => c.option )} max={this.state.mxAccDeaths} />
               </Grid.Column>
               <Grid.Column width={8}>
                 <h3>Fallecidos por covid-19 en países con acciones en etapas tempranas</h3>
-                <Chart data={earlyDData} countries={countries.filter(c => c.early )} />
+                <Chart data={earlyDData} countries={countries.filter(c => c.early )} max={this.state.mxAccDeaths} />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
               <Grid.Column width={8}>
                 <h3>Confirmados por covid-19 en países similares en LatAm</h3>
-                <Chart data={similarIData} countries={countries.filter(c => c.similar )}  />
+                <Chart data={similarIData} countries={countries.filter(c => c.similar )}  max={this.state.mxAccCases} />
               </Grid.Column>
               <Grid.Column width={8}>
                 <h3>Confirmados por covid-19 en países que consiguen aplanar la curva</h3>
-                <Chart data={wdIData} countries={countries.filter(c => c.wd )} />
+                <Chart data={wdIData} countries={countries.filter(c => c.wd )} max={this.state.mxAccCases} />
                 
               </Grid.Column>
             </Grid.Row>
             <Grid.Row >
               <Grid.Column width={8}>
                 <h3>Confirmados por covid-19 en países con acciones diferentes al resto del mundo</h3>
-                <Chart data={optionIData} countries={countries.filter(c => c.option )} />
+                <Chart data={optionIData} countries={countries.filter(c => c.option )} max={this.state.mxAccCases} />
               </Grid.Column>
               <Grid.Column width={8}>
                 <h3>Confirmados por covid-19 en países con acciones en etapas tempranas</h3>
-                <Chart data={earlyIData} countries={countries.filter(c => c.early )} />
+                <Chart data={earlyIData} countries={countries.filter(c => c.early )} max={this.state.mxAccCases} />
               </Grid.Column>
             </Grid.Row>
           </Grid>
