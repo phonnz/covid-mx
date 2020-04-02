@@ -186,7 +186,7 @@ class App extends Component {
                 <Chart data={earlyDData} countries={countries.filter(c => c.early )} />
               </Grid.Column>
             </Grid.Row>
-            {/* <Grid.Row>
+            <Grid.Row>
               <Grid.Column width={8}>
                 <h3>Confirmados por covid-19 en países similares en LatAm</h3>
                 <Chart data={similarIData} countries={countries.filter(c => c.similar )}  />
@@ -206,7 +206,7 @@ class App extends Component {
                 <h3>Confirmados por covid-19 en países con acciones en etapas tempranas</h3>
                 <Chart data={earlyIData} countries={countries.filter(c => c.early )} />
               </Grid.Column>
-            </Grid.Row> */}
+            </Grid.Row>
           </Grid>
           <Divider />
           <Container text>

@@ -33,13 +33,13 @@ class growChart extends Component {
           <ReferenceLine x='3/17/20' stroke="red" label={<Label value="FASE I AR" fill={'white'}  /> } textAnchor={'start'} />
           <ReferenceLine x='3/20/20' stroke="red" label={<Label value="FASE II AR" fill={'white'}  /> } textAnchor={'start'} />
           
-          <CartesianGrid strokeDasharray="25 25" />
+          <CartesianGrid strokeDasharray="3 3" />
           <Tooltip itemStyle={{  backgroundColor: '#363738' }} contentStyle={{backgroundColor: '#363738'}} wrapperStyle={{ backgroundColor: '#363738', border: '1px solid #fff', borderRadius: 3 }} />
           <Legend  wrapperStyle={{ left: '10', backgroundColor: '#363738', border: '1px solid #d5d5d5', borderRadius: 3 }}/>
           {this.props.countries.map((country, idx) => {
 
               if(country.key === "Mexico"){
-                return (<Line key={idx} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} strokeWidth={3} label={country.name} dot={<Mexico childKey={country.key} /> }  />)
+                return (<Line key={idx} type="monotone" dataKey={country.key} stroke={this.getRandomColor(country)} strokeWidth={3} label={country.name}   />)
                 
               }  else {
                 
