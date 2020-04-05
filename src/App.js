@@ -39,8 +39,23 @@ class App extends Component {
     }
   }
 
-  changeDataSrc = (e, {id}) => { this.setState({srcSelector: id})}  
-  
+  changeDataSrc = (e, { id }) => { this.setState({ srcSelector: id }) }
+
+  changeCountriesSrc = (e, { id }) => { this.setState({ countrySelector: id }) }
+
+  getFilterString(){
+    switch(this.state.countrySelector){
+      case "similar": 
+        return "similares en América Latina"
+      case "wd": 
+        return "que consiguen doblar la curva"
+      case "option": 
+        return "que han optado por acciones diferentes al resto del mundo"
+      case "early": 
+        return "que tomaron acciones tempranas"
+    }
+  }
+
   getChartCountries() {
     return countries.filter(c => c[this.state.countrySelector])
   }
@@ -68,7 +83,7 @@ class App extends Component {
 
   parseData(data, fields) {
     const currentDate = fields[fields.length - 1]
-    const subfields = fields.slice(60, fields.length)
+    const subfields = fields.slice(55, fields.length)
 
     const countryKeys = countries.map(country => country.key)
     let exclusiveData = data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0)
@@ -176,7 +191,7 @@ class App extends Component {
 
     return (
       <Container fluid>
-        <Menu inverted tabular stackable>
+        <Menu inverted tabular>
           <Menu.Item
             id='deaths'
             name={nameTabA}
@@ -189,55 +204,44 @@ class App extends Component {
             active={srcSelector === 'confirmed'}
             onClick={this.changeDataSrc}
           />
-          <Menu.Menu position='right'>
-            <Menu.Item
-              name={currentStringDate}
-            />
-          </Menu.Menu>
         </Menu>
         <Grid stackable>
           <Grid.Row>
-            <Grid.Column width={8}>
+            <Grid.Column width={16}>
               <Chart data={this.getDataset()} countries={this.getChartCountries()} date={currentDate} max={this.getMaxRange()} />
-              <h3>Covid-19 en países similares en LatAm</h3>
+              
             </Grid.Column>
-            {/* <Grid.Column width={8}>
-                <h3>Fallecidos por covid-19 en países que consiguen aplanar la curva</h3>
-                <Chart data={wdDData} countries={countries.filter(c => c.wd )} max={this.state.mxAccDeaths} />
-                
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row >
-              <Grid.Column width={8}>
-                <h3>Fallecidos por covid-19 en países con acciones diferentes al resto del mundo</h3>
-                <Chart data={optionDData} countries={countries.filter(c => c.option )} max={this.state.mxAccDeaths} />
-              </Grid.Column>
-              <Grid.Column width={8}>
-                <h3>Fallecidos por covid-19 en países con acciones en etapas tempranas</h3>
-                <Chart data={earlyDData} countries={countries.filter(c => c.early )} max={this.state.mxAccDeaths} />
-              </Grid.Column> */}
+            <Grid.Column width={12}>
+              <Menu inverted>
+                <Menu.Item
+                  id='similar'
+                  name="LatAm"
+                  active={this.state.countrySelector === 'similar'}
+                  onClick={this.changeCountriesSrc}
+                />
+                <Menu.Item
+                  id='wd'
+                  name='Éxito'
+                  active={this.state.countrySelector === 'wd'}
+                  onClick={this.changeCountriesSrc}
+                />
+                <Menu.Item
+                  id='option'
+                  name='Crisis'
+                  active={this.state.countrySelector === 'option'}
+                  onClick={this.changeCountriesSrc}
+                />
+                <Menu.Item
+                  id='early'
+                  name='Acciones tempranas'
+                  active={this.state.countrySelector === 'early'}
+                  onClick={this.changeCountriesSrc}
+                />
+              </Menu>
+              <h3>Covid-19: México comparado con países {this.getFilterString()} </h3>
+              <small>{currentStringDate}</small>
+            </Grid.Column>
           </Grid.Row>
-          {/* <Grid.Row>
-              <Grid.Column width={8}>
-                <h3>Confirmados por covid-19 en países similares en LatAm</h3>
-                <Chart data={similarIData} countries={countries.filter(c => c.similar )}  max={this.state.mxAccCases} />
-              </Grid.Column>
-              <Grid.Column width={8}>
-                <h3>Confirmados por covid-19 en países que consiguen aplanar la curva</h3>
-                <Chart data={wdIData} countries={countries.filter(c => c.wd )} max={this.state.mxAccCases} />
-                
-              </Grid.Column>
-            </Grid.Row>
-            <Grid.Row >
-              <Grid.Column width={8}>
-                <h3>Confirmados por covid-19 en países con acciones diferentes al resto del mundo</h3>
-                <Chart data={optionIData} countries={countries.filter(c => c.option )} max={this.state.mxAccCases} />
-              </Grid.Column>
-              <Grid.Column width={8}>
-                <h3>Confirmados por covid-19 en países con acciones en etapas tempranas</h3>
-                <Chart data={earlyIData} countries={countries.filter(c => c.early )} max={this.state.mxAccCases} />
-              </Grid.Column>
-            </Grid.Row> */}
         </Grid>
         <Divider />
         <Container text>
