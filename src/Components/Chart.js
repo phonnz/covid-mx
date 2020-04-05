@@ -11,10 +11,6 @@ class growChart extends Component {
     ]
   }
 
-
-  
-
-
   render() {
     // console.log('Render', this.props.countries)
     // console.log('Data', this.props.data)
@@ -33,7 +29,7 @@ class growChart extends Component {
           <Legend  wrapperStyle={{ left: '10', backgroundColor: '#363738', border: '1px solid #d5d5d5', borderRadius: 3 }}/>
           {this.props.countries.map((country, idx) => {
               if(country.key === "Mexico"){
-                return (<Line key={idx} type="monotone" dataKey={country.key} stroke={country.color} strokeWidth={3}  dot={<Mexico />} />)
+                return (<Line key={idx} type="monotone" dataKey={country.key} stroke={country.color} strokeWidth={3}  dot={<Mexico currentDate={this.props.date} />} />)
                 
               }  else {
                 

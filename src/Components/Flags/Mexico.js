@@ -1,9 +1,13 @@
 import React from 'react'
+import  { Dot } from 'recharts';
 
 const Mexico = props => {
-    const { cx, cy, r, index } = props;
+    console.log(props)
+    const { cx, cy, r, index, payload, currentDate } = props;
     
-    return (
+
+    if(payload.name === currentDate){
+        return (
         <svg key={`${r}-${index}`} xmlns="http://www.w3.org/2000/svg" version="1.1" id="Capa_1" x={cx - 10} y={cy - 10} width={30} height={35} viewBox="0 0 1024 1024" style={{ enableBackground: 'new 0 0 512 512' }} >
             <polygon key={0} fill="#D80027" points="341.334,85.33 170.666,85.33 0,85.33 0,426.662 170.666,426.662 341.334,426.662   512,426.662 512,85.33 " />
             <rect key={1} y="85.333" fill="#6DA544" width="170.663" height="341.337" />
@@ -27,6 +31,8 @@ const Mexico = props => {
             <g key={19} ></g>
         </svg>
       )
+    }
+    return (<Dot />)
 }
 
 export default Mexico
