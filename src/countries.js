@@ -49,7 +49,7 @@ module.exports.countries =  [
   },
     {key: "Mexico",
     name: "México",
-    color: "red",
+    color: "white",
     similar: true,
     option: true,
     wd: true,

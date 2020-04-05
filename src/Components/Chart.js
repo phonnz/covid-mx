@@ -16,6 +16,8 @@ class growChart extends Component {
 
 
   render() {
+    // console.log('Render', this.props.countries)
+    // console.log('Data', this.props.data)
 
     return (
       <ResponsiveContainer height={400}>
