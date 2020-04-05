@@ -26,7 +26,7 @@ class App extends Component {
       srcSelector: 'confirmed',
       countrySelector: 'similar',
       refreshing: false,
-      mxAccDeaths: 60,
+      mxAccDeaths: 61,
       mxAccConfirmed: 1400,
     };
   }
@@ -40,17 +40,7 @@ class App extends Component {
   }
 
   changeDataSrc = (e, {id}) => { this.setState({srcSelector: id})}  
-  // changeDataSrc(e) {
-  //   e.preventDefault()
-  //   console.log(this.state)
-  //   console.log(e.target)
-  //   if(this.state.srcSelector !== e.target.id){
-  //     this.setState({
-  //       srcSelector: e.target.id
-  //     })
-  //   }
-  // }
-
+  
   getChartCountries() {
     return countries.filter(c => c[this.state.countrySelector])
   }
@@ -84,8 +74,6 @@ class App extends Component {
     let exclusiveData = data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0)
     exclusiveData = _(exclusiveData).groupBy('Country/Region').value()
 
-
-
     exclusiveData = Object.keys(exclusiveData).map(country => {
       let zip_country = { 'key': country, }
 
@@ -99,7 +87,6 @@ class App extends Component {
       })
 
       return zip_country
-
     })
 
     const mxAcc = parseInt((exclusiveData.filter(row => row.key === 'Mexico'))[0][currentDate])
@@ -146,51 +133,13 @@ class App extends Component {
           meta: { fields }
         } = results;
         const currentDate = fields[fields.length - 1]
-        const subfields = fields.slice(60, fields.length)
-
-        const countryKeys = countries.map(country => country.key)
-        let exclusiveData = results.data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0)
-        exclusiveData = _(exclusiveData).groupBy('Country/Region').value()
-
-
-
-        exclusiveData = Object.keys(exclusiveData).map(country => {
-          let zip_country = { 'key': country, }
-
-          subfields.map(day => {
-            let sum = 0
-            for (var i = 0; i < exclusiveData[country].length; i++) {
-              sum += parseInt(exclusiveData[country][i][day])
-            }
-            zip_country[day] = sum
-
-          })
-
-          return zip_country
-
-        })
-
-        const mxAcc = parseInt((exclusiveData.filter(row => row.key === 'Mexico'))[0][currentDate])
-        let new_data = []
-
-        subfields.forEach(field => {
-          let new_row = { name: field, amt: 500 }
-          exclusiveData.map(r => {
-            new_row[r.key] = r[field]
-          })
-          new_data.push(new_row)
-
-        })
-
+        const { data, max } = this.parseData(results.data, fields)
 
         this.setState({
           currentDate,
           fields,
-          deathsData: new_data,
-          mxAcc,
-          // wdDData: this.transformData(new_data, countries, fields.slice(55, fields.length), 'wd' ),
-          // optionDData: this.transformData(new_data, countries, fields.slice(48, fields.length), 'option'),
-          // earlyDData: this.transformData(new_data, countries, fields.slice(45, fields.length), 'early'),
+          deathsData: data,
+          mxAccDeaths: max,
         });
 
       },
@@ -227,7 +176,7 @@ class App extends Component {
 
     return (
       <Container fluid>
-        <Menu inverted tabular>
+        <Menu inverted tabular stackable>
           <Menu.Item
             id='deaths'
             name={nameTabA}
@@ -249,8 +198,8 @@ class App extends Component {
         <Grid stackable>
           <Grid.Row>
             <Grid.Column width={8}>
-              <h3>Fallecidos por covid-19 en países similares en LatAm</h3>
               <Chart data={this.getDataset()} countries={this.getChartCountries()} date={currentDate} max={this.getMaxRange()} />
+              <h3>Covid-19 en países similares en LatAm</h3>
             </Grid.Column>
             {/* <Grid.Column width={8}>
                 <h3>Fallecidos por covid-19 en países que consiguen aplanar la curva</h3>
