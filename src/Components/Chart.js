@@ -33,7 +33,7 @@ class growChart extends Component {
                 
               }  else {
                 
-                return (<Line key={idx} type="monotone" dataKey={country.key }  stroke={country.color} strokeWidth={1} label={country.name} dot={false} /> )
+                return (<Line key={idx} type="monotone" dataKey={country.key }  stroke={country.color} strokeWidth={1.2} label={country.name} dot={false} /> )
               }
 
           })}

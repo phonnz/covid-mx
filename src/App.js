@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Grid, Divider, Menu } from 'semantic-ui-react'
+import { Checkbox, Container, Grid, Divider, Menu } from 'semantic-ui-react'
 import Papa from 'papaparse'
 import Chart from './Components/Chart';
 import _ from 'lodash'
@@ -20,9 +20,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      excludedDeathsData: null,
+      excludedConfirmedData: null,
       deathsData: null,
       confirmedData: null,
       fields: [],
+      teleport: true,
       srcSelector: 'confirmed',
       countrySelector: 'similar',
       refreshing: false,
@@ -43,6 +46,19 @@ class App extends Component {
 
   changeCountriesSrc = (e, { id }) => { this.setState({ countrySelector: id }) }
 
+  changeTeleport = () => { 
+    const updateConfirmed = this.parseData(this.state.excludedConfirmedData, this.state.fields)
+    const updateDeaths = this.parseData(this.state.excludedDeathsData, this.state.fields)
+
+    this.setState({ 
+      teleport: !this.state.teleport,
+      deathsData: updateDeaths.data,
+      confirmedData: updateConfirmed.data,
+      srcSelector: 'confirmed',
+      countrySelector: 'similar',
+    }) 
+  }
+
   getFilterString(){
     switch(this.state.countrySelector){
       case "similar": 
@@ -58,6 +74,12 @@ class App extends Component {
 
   getChartCountries() {
     return countries.filter(c => c[this.state.countrySelector])
+  }
+
+  getTeleportedCountries() {
+    let ncountries = {}
+    countries.filter(c => c['teleport'] ).map(c => ncountries[c.key] = {'key': c.key, 'teleport' : c.teleport}  )
+    return ncountries
   }
 
   getTestData = (url) => {
@@ -81,14 +103,13 @@ class App extends Component {
 
   }
 
-  parseData(data, fields) {
-    const currentDate = fields[fields.length - 1]
-    const subfields = fields.slice(55, fields.length)
-
+  excludeData(data, fields){
+    let subfields = fields.slice(5, fields.length)
     const countryKeys = countries.map(country => country.key)
+
     let exclusiveData = data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0)
     exclusiveData = _(exclusiveData).groupBy('Country/Region').value()
-
+    
     exclusiveData = Object.keys(exclusiveData).map(country => {
       let zip_country = { 'key': country, }
 
@@ -104,13 +125,29 @@ class App extends Component {
       return zip_country
     })
 
+    return exclusiveData
+  }
+
+  parseData(exclusiveData, fields) {
+    const currentDate = fields[fields.length - 1]
+    const teleportedCountries = this.getTeleportedCountries()
+    
+
     const mxAcc = parseInt((exclusiveData.filter(row => row.key === 'Mexico'))[0][currentDate])
     let new_data = []
 
+    const subfields = fields.slice(61,fields.length)
     subfields.forEach(field => {
-      let new_row = { name: field, amt: 500 }
-      exclusiveData.map(r => {
-        new_row[r.key] = r[field]
+      let new_row = { name: field, amt: 1000 }
+      exclusiveData.map(countryRow => {
+        if(this.state.teleport && teleportedCountries[countryRow.key]){
+          const teleDate = new Date(field)
+          let teleported = (new Date(teleDate.setDate(teleDate.getDate() - teleportedCountries[countryRow.key].teleport))).toLocaleDateString() 
+          
+          new_row[countryRow.key] = countryRow[teleported.substring(0, teleported.length -2)]
+        }else{
+          new_row[countryRow.key] = countryRow[field]
+        }
       })
       new_data.push(new_row)
 
@@ -128,9 +165,11 @@ class App extends Component {
         const {
           meta: { fields }
         } = results;
-        const { data, max } = this.parseData(results.data, fields)
+        const excludedData = this.excludeData(results.data, fields)
+        const { data, max } = this.parseData(excludedData, fields)
 
         this.setState({
+          excludedConfirmedData: excludedData,
           confirmedData: data,
           mxAccConfirmed: max
         })
@@ -148,11 +187,13 @@ class App extends Component {
           meta: { fields }
         } = results;
         const currentDate = fields[fields.length - 1]
-        const { data, max } = this.parseData(results.data, fields)
+        const excludedData = this.excludeData(results.data, fields)
+        const { data, max } = this.parseData(excludedData, fields)
 
         this.setState({
           currentDate,
           fields,
+          excludedDeathsData: excludedData,
           deathsData: data,
           mxAccDeaths: max,
         });
@@ -240,6 +281,9 @@ class App extends Component {
               </Menu>
               <h3>Covid-19: México comparado con países {this.getFilterString()} </h3>
               <small>{currentStringDate}</small>
+              <small>*Las curvas de algunos países han sido trasladadas para realizar la comparativa</small>
+              {/* <Checkbox toggle checked={this.state.teleport} onChange={this.changeTeleport} /> */}
+              
             </Grid.Column>
           </Grid.Row>
         </Grid>

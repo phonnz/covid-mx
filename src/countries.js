@@ -1,7 +1,7 @@
 module.exports.countries =  [
     {key: "Argentina",
     name: "Argentina",
-    color: "#9c0d6a",
+    color: "red",
     similar: true,
     option: false,
     wd: true,
@@ -17,6 +17,7 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early:false,
+    teleport: 7,
     // isolationb: '3/13/2020',
     // isolationa: '3/13/2020',
   },
@@ -36,6 +37,7 @@ module.exports.countries =  [
     option: false,
     wd: false,
     early:false,
+    teleport: 1,
     isolationa: '3/13/2020'
   },
     {key: "Peru",
@@ -45,6 +47,7 @@ module.exports.countries =  [
     option: false,
     wd: true,
     early:true,
+    teleport: 2,
     isolationa: '3/13/2020'
   },
     {key: "Mexico",
@@ -68,17 +71,19 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early: false,
+    teleport: 26,
     hospitalBeds: 34,
     isolationa: '3/13/2020',
     inflectionb: '3/9/2020'
   },
     {key: "Spain",
     name: "España",
-    color: "#02e75f",
+    color: "#ffc301",
     similar: false,
     option: true,
     wd: false,
     early: false,
+    teleport: 17,
     isolationa: '3/13/2020'
   },
     {key: "United Kingdom",
@@ -88,6 +93,7 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early: false,
+    teleport: 14,
     isolationa: '3/13/2020'
   },
     {key: "Germany",
@@ -97,6 +103,7 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early: false,
+    teleport: 18,
     isolationa: '3/13/2020'
   },
     {key: "Sweden",
@@ -106,6 +113,7 @@ module.exports.countries =  [
     option: true,
     wd: false,
     early: false,
+    teleport: 13,
     isolationa: '3/13/2020'
   },
   {key: "Taiwan*",
@@ -115,6 +123,7 @@ module.exports.countries =  [
     option: false,
     wd: true,
     early: true,
+    teleport: 1,
     isolationa: '3/13/2020'
   },
   {key: "Paraguay",
@@ -133,15 +142,17 @@ module.exports.countries =  [
     option: false,
     wd: true,
     early: false,
+    teleport: 28,
     isolationa: '3/13/2020'
   },
   {key: "Australia",
     name: "Australia",
-    color: "#7C6FFD",
+    color: "#ff66b3",
     similar: false,
     option: false,
     wd: true,
     early: true,
+    teleport: 8,
     isolationa: '3/13/2020'
   },
   {key: "Singapore",
@@ -151,6 +162,7 @@ module.exports.countries =  [
   option: false,
   wd: true,
   early: true,
+  teleport: 12,
   isolationa: '3/13/2020'
   },
   {key: "Netherlands",
@@ -160,15 +172,17 @@ module.exports.countries =  [
   option: true,
   wd: false,
   early: false,
+  teleport: 13,
   // isolationa: '3/13/2020'
   },
   {key: "US",
   name: "US",
-  color: "#76FF3B",
+  color: "red",
   similar: false,
   option: true,
   wd: false,
   early: false,
+  teleport: 16,
   isolationa: '3/19/2020'
   },
   
