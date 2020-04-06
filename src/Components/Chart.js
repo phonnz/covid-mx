@@ -16,7 +16,7 @@ class growChart extends Component {
     // console.log('Data', this.props.data)
 
     return (
-      <ResponsiveContainer height={800}>
+      <ResponsiveContainer height={400}>
         <LineChart width={500} height={450} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: -15 }}>
           <XAxis dataKey="name" />
           <YAxis  type="number" label={{ value: 'Fallecidos', angle: 90, position: 'insideLeft', fill: 'white' }} domain={['auto', dataMax => (this.props.max*1.3) ]} />
