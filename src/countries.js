@@ -34,7 +34,7 @@ module.exports.countries =  [
     name: "Ecuador",
     color: "#f54795",
     similar: true,
-    option: false,
+    option: true,
     wd: false,
     early:false,
     teleport: 1,
