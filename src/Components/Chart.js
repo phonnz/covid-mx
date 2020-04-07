@@ -12,11 +12,9 @@ class growChart extends Component {
   }
 
   render() {
-    // console.log('Render', this.props.countries)
-    // console.log('Data', this.props.data)
 
     return (
-      <ResponsiveContainer height={400}>
+      <ResponsiveContainer minHeight={550} height={'80%'} >
         <LineChart width={500} height={450} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: -15 }}>
           <XAxis dataKey="name" />
           <YAxis  type="number" label={{ value: 'Fallecidos', angle: 90, position: 'insideLeft', fill: 'white' }} domain={['auto', dataMax => (this.props.max*1.3) ]} />
@@ -33,7 +31,7 @@ class growChart extends Component {
                 
               }  else {
                 
-                return (<Line key={idx} type="monotone" dataKey={country.key }  stroke={country.color} strokeWidth={1.2} label={country.name} dot={false} /> )
+                return (<Line key={idx} type="monotone" dataKey={country.key }  stroke={country.color} strokeWidth={1.1} label={country.name} dot={false} /> )
               }
 
           })}
