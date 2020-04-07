@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Checkbox, Container, Grid, Divider, Menu } from 'semantic-ui-react'
+import { Checkbox, Container, Grid, Divider, Label, Menu } from 'semantic-ui-react'
 import Papa from 'papaparse'
 import Chart from './Components/Chart';
 import _ from 'lodash'
@@ -46,16 +46,19 @@ class App extends Component {
 
   changeCountriesSrc = (e, { id }) => { this.setState({ countrySelector: id }) }
 
-  changeTeleport = () => { 
+  changeTeleport = async() => { 
+    await this.setState({ 
+      teleport: !this.state.teleport,
+    })
+    
     const updateConfirmed = this.parseData(this.state.excludedConfirmedData, this.state.fields)
     const updateDeaths = this.parseData(this.state.excludedDeathsData, this.state.fields)
 
     this.setState({ 
-      teleport: !this.state.teleport,
       deathsData: updateDeaths.data,
       confirmedData: updateConfirmed.data,
-      srcSelector: 'confirmed',
-      countrySelector: 'similar',
+      // srcSelector: 'confirmed',
+      // countrySelector: 'similar',
     }) 
   }
 
@@ -283,9 +286,9 @@ class App extends Component {
                 />
               </Menu>
               <h3>Covid-19: México comparado con países {this.getFilterString()} </h3>
-              <small>{currentStringDate}</small>
-              <small>*Las curvas de algunos países han sido trasladadas para realizar la comparativa</small>
-              {/* <Checkbox toggle checked={this.state.teleport} onChange={this.changeTeleport} /> */}
+              <span className="ui header inverted">Traslado </span> <Checkbox toggle checked={this.state.teleport} onChange={this.changeTeleport} />{<br/>}
+              <small> *El botón de "Traslado", coloca las curvas de los países para coincidir alrededor de 150 casos confirmados para realizar la comparativa</small>{<br/>}
+              <small>{currentStringDate}</small>{<br/>}
               
             </Grid.Column>
           </Grid.Row>
