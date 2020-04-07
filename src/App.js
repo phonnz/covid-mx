@@ -64,11 +64,11 @@ class App extends Component {
       case "similar": 
         return "similares en América Latina"
       case "wd": 
-        return "que consiguen doblar la curva"
+        return "que consiguen disminuir o controlar la velocidad de contagio"
       case "option": 
         return "que han optado por acciones diferentes al resto del mundo"
       case "early": 
-        return "que tomaron acciones tempranas"
+        return "que tomaron acciones en etapas tempranas de contagio"
     }
   }
 
@@ -262,19 +262,22 @@ class App extends Component {
                 />
                 <Menu.Item
                   id='wd'
-                  name='Éxito'
+                  name=''
+                  icon='check circle'
                   active={this.state.countrySelector === 'wd'}
                   onClick={this.changeCountriesSrc}
-                />
+                  />
                 <Menu.Item
                   id='option'
-                  name='Crisis'
+                  icon='warning sign'
+                  name=''
                   active={this.state.countrySelector === 'option'}
                   onClick={this.changeCountriesSrc}
                 />
                 <Menu.Item
                   id='early'
-                  name='Acciones tempranas'
+                  icon="clock"
+                  name=''
                   active={this.state.countrySelector === 'early'}
                   onClick={this.changeCountriesSrc}
                 />
