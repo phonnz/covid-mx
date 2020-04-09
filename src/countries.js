@@ -1,62 +1,68 @@
-module.exports.countries =  [
-    {key: "Argentina",
+module.exports.countries = [
+  {
+    key: "Argentina",
     name: "Argentina",
     color: "red",
     similar: true,
     option: false,
     wd: true,
-    early:true,
+    early: true,
     isolationa: '3/12/2020',
     isolationb: '3/17/2020',
     isolationc: '3/20/2020',
   },
-    {key: "Brazil",
+  {
+    key: "Brazil",
     name: "Brasil",
     color: "#0cff0c",
     similar: true,
     option: true,
     wd: false,
-    early:false,
+    early: false,
     teleport: 7,
     // isolationb: '3/13/2020',
     // isolationa: '3/13/2020',
   },
-    {key: "Colombia",
+  {
+    key: "Colombia",
     name: "Colombia",
     color: "#3b89cf",
     similar: true,
     option: false,
     wd: false,
-    early:true,
+    early: true,
     isolationa: '3/13/2020'
   },
-    {key: "Ecuador",
+  {
+    key: "Ecuador",
     name: "Ecuador",
     color: "#f54795",
     similar: true,
     option: true,
     wd: false,
-    early:false,
+    early: false,
     teleport: 1,
     isolationa: '3/13/2020'
   },
-    {key: "Peru",
+  {
+    key: "Peru",
     name: "Perú",
     color: "#42d79b",
     similar: true,
     option: false,
     wd: true,
-    early:true,
+    early: true,
     teleport: 2,
     isolationa: '3/13/2020'
   },
-    {key: "Mexico",
+  {
+    key: "Mexico",
     name: "México",
     color: "white",
     similar: true,
     option: true,
     wd: true,
-    early:true,
+    early: true,
     underFivePneumonia: 75,
     tuberculosis: 22,
     populationAge: 27,
@@ -64,7 +70,17 @@ module.exports.countries =  [
     isolationa: '3/13/2020',
     isolationb: '3/23/2020',
   },
-    {key: "Italy",
+  {
+    key: "mx-centinela",
+    name: "México :(",
+    color: "yellow",
+    similar: true,
+    option: true,
+    wd: true,
+    early: true,
+  },
+  {
+    key: "Italy",
     name: "Italia",
     color: "#b46dea",
     similar: false,
@@ -76,7 +92,8 @@ module.exports.countries =  [
     isolationa: '3/13/2020',
     inflectionb: '3/9/2020'
   },
-    {key: "Spain",
+  {
+    key: "Spain",
     name: "España",
     color: "#ffc301",
     similar: false,
@@ -86,7 +103,8 @@ module.exports.countries =  [
     teleport: 17,
     isolationa: '3/13/2020'
   },
-    {key: "United Kingdom",
+  {
+    key: "United Kingdom",
     name: "UK",
     color: "#d6da20",
     similar: false,
@@ -96,7 +114,8 @@ module.exports.countries =  [
     teleport: 14,
     isolationa: '3/13/2020'
   },
-    {key: "Germany",
+  {
+    key: "Germany",
     name: "Alemania",
     color: "#10e0f7",
     similar: false,
@@ -106,9 +125,10 @@ module.exports.countries =  [
     teleport: 18,
     isolationa: '3/13/2020'
   },
-    {key: "Sweden",
+  {
+    key: "Sweden",
     name: "Suecia",
-    color: "#72ddd0",
+    color: "#f76f00",
     similar: false,
     option: true,
     wd: false,
@@ -116,7 +136,8 @@ module.exports.countries =  [
     teleport: 13,
     isolationa: '3/13/2020'
   },
-  {key: "Taiwan*",
+  {
+    key: "Taiwan*",
     name: "Taiwan",
     color: "#84e101",
     similar: false,
@@ -126,7 +147,8 @@ module.exports.countries =  [
     teleport: 1,
     isolationa: '3/13/2020'
   },
-  {key: "Paraguay",
+  {
+    key: "Paraguay",
     name: "Paraguay",
     color: "#8ad1dd",
     similar: true,
@@ -135,7 +157,8 @@ module.exports.countries =  [
     early: true,
     isolationa: '3/13/2020'
   },
-  {key: "Korea, South",
+  {
+    key: "Korea, South",
     name: "Korea del sur",
     color: "#E0B83B",
     similar: false,
@@ -145,7 +168,8 @@ module.exports.countries =  [
     teleport: 28,
     isolationa: '3/13/2020'
   },
-  {key: "Australia",
+  {
+    key: "Australia",
     name: "Australia",
     color: "#ff66b3",
     similar: false,
@@ -155,35 +179,38 @@ module.exports.countries =  [
     teleport: 8,
     isolationa: '3/13/2020'
   },
-  {key: "Singapore",
-  name: "Singapur",
-  color: "#7C6FFD",
-  similar: false,
-  option: false,
-  wd: true,
-  early: true,
-  teleport: 12,
-  isolationa: '3/13/2020'
+  {
+    key: "Singapore",
+    name: "Singapur",
+    color: "#7C6FFD",
+    similar: false,
+    option: false,
+    wd: true,
+    early: true,
+    teleport: 12,
+    isolationa: '3/13/2020'
   },
-  {key: "Netherlands",
-  name: "Países Bajos",
-  color: "#95FFCC",
-  similar: false,
-  option: true,
-  wd: false,
-  early: false,
-  teleport: 13,
-  // isolationa: '3/13/2020'
+  {
+    key: "Netherlands",
+    name: "Países Bajos",
+    color: "#95FFCC",
+    similar: false,
+    option: true,
+    wd: false,
+    early: false,
+    teleport: 13,
+    // isolationa: '3/13/2020'
   },
-  {key: "US",
-  name: "US",
-  color: "red",
-  similar: false,
-  option: true,
-  wd: false,
-  early: false,
-  teleport: 16,
-  isolationa: '3/19/2020'
+  {
+    key: "US",
+    name: "US",
+    color: "red",
+    similar: false,
+    option: true,
+    wd: false,
+    early: false,
+    teleport: 16,
+    isolationa: '3/19/2020'
   },
-  
+
 ]
