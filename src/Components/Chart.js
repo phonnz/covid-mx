@@ -17,7 +17,7 @@ class growChart extends Component {
       <ResponsiveContainer minHeight={550} height={'80%'} >
         <LineChart width={500} height={450} data={this.props.data} margin={{ top: 5, right: 5, bottom: 5, left: -15 }}>
           <XAxis dataKey="name" />
-          <YAxis  type="number" label={{ value: 'Fallecidos', angle: 90, position: 'insideLeft', fill: 'white' }} domain={['auto', dataMax => (this.props.max*1.3) ]} />
+          <YAxis  type="number" label={{ value: 'Fallecidos', angle: 90, position: 'insideLeft', fill: 'white' }} domain={['auto', dataMax => (this.props.max*1.5) ]} />
           <ReferenceLine x='3/22/20' stroke="red" label={<Label value="F-II-MX" fill={'red'} position={'insideTopLeft'} /> }  />
           <ReferenceLine x='3/17/20' stroke="red" label={<Label value="F-I-AR" fill={'red'} position={'insideTopLeft'} /> }  />
           <ReferenceLine x='3/20/20' stroke="red" label={<Label value="F-II-AR" fill={'red'} position={'insideTopLeft'} /> }  />
