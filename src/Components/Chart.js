@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ResponsiveContainer, ReferenceLine, LineChart, Legend, Line, CartesianGrid, XAxis, YAxis, Tooltip, Label } from 'recharts';
 // import {  } from 'semantic-ui-react'
-import Mexico from './Flags/Mexico';
+import Flag from './Flags/Flag';
 
 
 class growChart extends Component {
@@ -27,13 +27,13 @@ class growChart extends Component {
           <Legend  wrapperStyle={{ left: '10', backgroundColor: '#363738', border: '1px solid #d5d5d5', borderRadius: 3 }}/>
           {this.props.countries.map((country, idx) => {
               if(country.key === "Mexico"){
-                return (<Line key={idx} type="monotone" dataKey={country.key} stroke={country.color} strokeWidth={3}  />)
+              return (<Line key={idx} type="monotone" dataKey={country.key} stroke={country.color} strokeWidth={3} dot={<Flag currentDate={this.props.date} />} />)
                 
               }  else if(country.key === "mx-centinela"){
-                return (<Line key={idx} type="monotone" dataKey={country.key} stroke={country.color} strokeWidth={3}  />)
+                return (<Line key={idx} type="monotone" dataKey={country.key} stroke={country.color} strokeWidth={3} dot={<Flag currentDate={this.props.date} />} />)
               }else{
                 
-                return (<Line key={idx} type="monotone" dataKey={country.key }  stroke={country.color} strokeWidth={1.1}   /> )
+                return (<Line key={idx} type="monotone" dataKey={country.key }  stroke={country.color} strokeWidth={1.1} dot={<Flag currentDate={this.props.date} />}  /> )
               }
 
           })}
