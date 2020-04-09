@@ -304,8 +304,8 @@ class App extends Component {
               <h3>Covid-19: México comparado con países {this.getFilterString()} </h3>
               <span className="ui header inverted">Traslado </span> <Checkbox toggle checked={this.state.teleport} onChange={this.changeTeleport} />{<br/>}
               <small> *El botón de "Traslado", coloca las curvas de los países para coincidir alrededor de 150 casos confirmados para realizar la comparativa</small>{<br/>}
-              <small>Se muestran 5 días extras al actual para observar la tendencia que siguió que la curva de los países trasladados </small>
-              <smal>Desactivar el botón para observar los casos en las fechas actuales</smal>
+              <small>Se muestran 5 días extras al actual para observar la tendencia que siguió que la curva de los países trasladados </small>{<br/>}
+              <small>Desactivar el botón para observar los casos en las fechas actuales</small>{<br/>}
               <small>{currentStringDate}</small>{<br/>}
               
             </Grid.Column>
