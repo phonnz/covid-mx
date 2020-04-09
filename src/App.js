@@ -131,6 +131,14 @@ class App extends Component {
     return exclusiveData
   }
 
+  extendTimelapse(fields){
+    let current = new Date(fields[fields.length-1])
+    for(var i=0;i<5;i++){
+      fields.push((new Date(current.setDate(current.getDate() + 1))).toLocaleDateString())
+    }
+    return fields
+  }
+
   parseData(exclusiveData, fields) {
     const currentDate = fields[fields.length - 1]
     const teleportedCountries = this.getTeleportedCountries()
@@ -139,7 +147,12 @@ class App extends Component {
     const mxAcc = parseInt((exclusiveData.filter(row => row.key === 'Mexico'))[0][currentDate])
     let new_data = []
 
-    const subfields = fields.slice(61,fields.length)
+    let subfields = fields.slice(61,fields.length)
+    
+    if(this.state.teleport){
+      subfields = this.extendTimelapse(subfields)
+    }
+
     subfields.forEach(field => {
       let new_row = { name: field, amt: 1000 }
       exclusiveData.map(countryRow => {
@@ -148,6 +161,9 @@ class App extends Component {
           let teleported = (new Date(teleDate.setDate(teleDate.getDate() - teleportedCountries[countryRow.key].teleport))).toLocaleDateString() 
           
           new_row[countryRow.key] = countryRow[teleported.substring(0, teleported.length -2)]
+        }else if(countryRow.key === "Mexico"){
+          new_row["mx"] = countryRow[field] * 10
+          new_row[countryRow.key] = countryRow[field]
         }else{
           new_row[countryRow.key] = countryRow[field]
         }
@@ -288,6 +304,8 @@ class App extends Component {
               <h3>Covid-19: México comparado con países {this.getFilterString()} </h3>
               <span className="ui header inverted">Traslado </span> <Checkbox toggle checked={this.state.teleport} onChange={this.changeTeleport} />{<br/>}
               <small> *El botón de "Traslado", coloca las curvas de los países para coincidir alrededor de 150 casos confirmados para realizar la comparativa</small>{<br/>}
+              <small>Se muestran 5 días extras al actual para observar la tendencia que siguió que la curva de los países trasladados </small>
+              <smal>Desactivar el botón para observar los casos en las fechas actuales</smal>
               <small>{currentStringDate}</small>{<br/>}
               
             </Grid.Column>
