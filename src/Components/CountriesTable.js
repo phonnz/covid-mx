@@ -32,8 +32,13 @@ const CountriesTable = (props) => {
 
                     if(country.key !== 'mx-centinela'){
 
-                        return (<Table.Row active={thispositive(country.key)}>
-                            <Table.Cell>{country.name}</Table.Cell>
+                        return (
+                        <Table.Row active={thispositive(country.key)}>
+                            <Table.Cell>{country.name}
+                            { country.teleport && 
+                                ` (+${country.teleport} )`
+                            }
+                            </Table.Cell>
                         <Table.Cell textAlign='right'>{populationString} M</Table.Cell>
                         <Table.Cell textAlign='right'>{confirmedString}{' '} 
                         { confirmedPercentage && confirmedPercentage !== 'NaN' && 
