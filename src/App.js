@@ -58,8 +58,6 @@ class App extends Component {
     this.setState({ 
       deathsData: updateDeaths.data,
       confirmedData: updateConfirmed.data,
-      // srcSelector: 'confirmed',
-      // countrySelector: 'similar',
     }) 
   }
 
@@ -236,10 +234,10 @@ class App extends Component {
   }
 
   parseTableData(){
-    
+    return _(countries)
+    .orderBy([ 'populationDensity', 'medianAge', ],[ 'desc', 'asc',])
+    .value()
 
-
-    return countries
   }
 
 
@@ -335,7 +333,7 @@ class App extends Component {
           <p>Cualquier comentario, duda o sugerencia puedes contactarme <a href="https://twitter.com/phonnz/" target="_blank">@phonnz</a> o mirar el código <a href="https://github.com/phonnz/covid-mx" target="_blank" rel="noopener noreferrer">Github</a></p>
           <p>Inspirado en la prueba de <a href="https://snack.expo.io/@xnt/coronavirus-ca" target="_blank" rel="noopener noreferrer">@xnt</a> el dashboard de <a href="https://covid.sdelmont.com/" target="_blank" rel="noopener noreferrer">@sd</a></p>
           <p><a href="https://experience.arcgis.com/experience/685d0ace521648f8a5beeeee1b9125cd" target="_blank" rel="noopener noreferrer">WHO</a> | <a href="https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6" target="_blank" rel="noopener noreferrer">JHU</a> | <a href="https://covid19.isciii.es/" target="_blank" rel="noopener noreferrer">ISC</a></p>
-          <p>Datos de: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank" rel="noopener noreferrer">JHU</a></p>
+          <p>Datos de: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank" rel="noopener noreferrer">JHU</a> <a href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer">OWD</a></p>
         </Container>
       </Container>
 
