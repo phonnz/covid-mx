@@ -1,5 +1,20 @@
 module.exports.countries = [
   {
+    key: "Mexico",
+    name: "México",
+    color: "white",
+    similar: true,
+    option: true,
+    wd: true,
+    early: true,
+    underFivePneumonia: 75,
+    tuberculosis: 22,
+    populationAge: 27,
+    hospitalBeds: 15,
+    isolationa: '3/13/2020',
+    isolationb: '3/23/2020',
+  },
+  {
     key: "Argentina",
     name: "Argentina",
     color: "red",
@@ -54,30 +69,6 @@ module.exports.countries = [
     early: true,
     teleport: 2,
     isolationa: '3/13/2020'
-  },
-  {
-    key: "Mexico",
-    name: "México",
-    color: "white",
-    similar: true,
-    option: true,
-    wd: true,
-    early: true,
-    underFivePneumonia: 75,
-    tuberculosis: 22,
-    populationAge: 27,
-    hospitalBeds: 15,
-    isolationa: '3/13/2020',
-    isolationb: '3/23/2020',
-  },
-  {
-    key: "mx-centinela",
-    name: "México :(",
-    color: "yellow",
-    similar: true,
-    option: true,
-    wd: true,
-    early: true,
   },
   {
     key: "Italy",
@@ -212,5 +203,13 @@ module.exports.countries = [
     teleport: 16,
     isolationa: '3/19/2020'
   },
-
+  {
+    key: "mx-centinela",
+    name: "México :(",
+    color: "yellow",
+    similar: true,
+    option: true,
+    wd: true,
+    early: true,
+  },
 ]

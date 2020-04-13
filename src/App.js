@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Checkbox, Container, Grid, Divider, Label, Menu } from 'semantic-ui-react'
 import Papa from 'papaparse'
 import Chart from './Components/Chart';
+import CountriesTable from './Components/CountriesTable';
 import _ from 'lodash'
 
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 
-const { countries } = require('./countries')
+let { countries } = require('./countries')
 const hopkins_confirmed =
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
 
@@ -106,7 +107,8 @@ class App extends Component {
 
   }
 
-  excludeData(data, fields){
+  excludeData(data, fields, type){
+    const currentDate = fields[fields.length-1]
     let subfields = fields.slice(5, fields.length)
     const countryKeys = countries.map(country => country.key)
 
@@ -122,6 +124,10 @@ class App extends Component {
           sum += parseInt(exclusiveData[country][i][day])
         }
         zip_country[day] = sum
+
+        if(day === currentDate){
+          countries[_.findIndex(countries, c => { return c.key === country })][type] = sum
+        }
 
       })
 
@@ -184,7 +190,7 @@ class App extends Component {
         const {
           meta: { fields }
         } = results;
-        const excludedData = this.excludeData(results.data, fields)
+        const excludedData = this.excludeData(results.data, fields, 'confirmed')
         const { data, max } = this.parseData(excludedData, fields)
 
         this.setState({
@@ -206,7 +212,7 @@ class App extends Component {
           meta: { fields }
         } = results;
         const currentDate = fields[fields.length - 1]
-        const excludedData = this.excludeData(results.data, fields)
+        const excludedData = this.excludeData(results.data, fields, 'deaths')
         const { data, max } = this.parseData(excludedData, fields)
 
         this.setState({
@@ -229,10 +235,18 @@ class App extends Component {
     }
   }
 
+  parseTableData(){
+    
+
+
+    return countries
+  }
+
 
   componentDidMount() {
     this.getDeathsData(hopkins_deaths)
     this.getConfirmedData(hopkins_confirmed)
+    this.parseTableData()
     // this.getTestData(owid_test_m) 
   }
 
@@ -308,6 +322,11 @@ class App extends Component {
               <small>Desactivar el botón para observar los casos en las fechas actuales</small>{<br/>}
               <small>{currentStringDate}</small>{<br/>}
               
+            </Grid.Column>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Column>
+              <CountriesTable countries={this.parseTableData()} />
             </Grid.Column>
           </Grid.Row>
         </Grid>
