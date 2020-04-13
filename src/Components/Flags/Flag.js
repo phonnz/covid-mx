@@ -5,9 +5,7 @@ const Flag = props => {
     //TODO: use dataKey for other countries
     const { cx, cy, r, index, payload, currentDate, dataKey } = props;
     const date = payload.name.replace('2020', '20')
-    console.log(date, currentDate)
     if (date === currentDate) {
-        console.log('Props', dataKey)
         switch (dataKey) {
 
             case 'Mexico':
