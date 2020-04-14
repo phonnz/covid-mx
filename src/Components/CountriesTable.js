@@ -17,7 +17,7 @@ const CountriesTable = (props) => {
                     <Table.HeaderCell>Media de Edad</Table.HeaderCell>
                     <Table.HeaderCell>Densidad Poblacional km² </Table.HeaderCell>
                     {/* <Table.HeaderCell>Densidad Poblacional Capital</Table.HeaderCell> */}
-                    {/* <Table.HeaderCell>Pruebas MHabitantes</Table.HeaderCell> */}
+                    <Table.HeaderCell>Pruebas M Habitantes</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
@@ -55,7 +55,7 @@ const CountriesTable = (props) => {
                             { country.populationDensity !== 0 && parseInt(country.populationDensity) }</Table.Cell>
                         {/* <Table.Cell textAlign='right'>
                             { country.capitalDensity !== 0 && country.capitalDensity }</Table.Cell> */}
-                        {/* <Table.Cell textAlign='right'>{country.testAmount}</Table.Cell> */}
+                        <Table.Cell textAlign='right'>{country.testsPerM}</Table.Cell>
                     </Table.Row>
                     )
                 }

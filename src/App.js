@@ -42,7 +42,7 @@ class App extends Component {
     } else if(this.state.srcSelector === 'confirmed') {
       return this.state.mxAccConfirmed
     } else {
-      return this.state.mxAccTests*.75
+      return this.state.mxAccTests
     }
   }
 
@@ -94,7 +94,7 @@ class App extends Component {
     
     const excludedData = data.filter(row => countryKeys.indexOf(row['Entity'].split(' ')[0] ) >= 0)
     const mexicoRows = excludedData.filter(row => row['Entity'].split(' ')[0] === 'Mexico')
-    let mxAcc = mexicoRows[mexicoRows.length-1]['Cumulative total'] 
+    let mxAcc = mexicoRows[mexicoRows.length-1]['Cumulative total per thousand']//['Cumulative total'] 
     
     excludedData.map(row => {
       const CurrentKey = row['Entity'].split(' ')[0]
@@ -104,7 +104,7 @@ class App extends Component {
       newDateKey = newDateKey.substring(0, newDateKey.length -2)
       
       if(!countriesData[ CurrentKey ]) countriesData[CurrentKey] = {} 
-      countriesData[CurrentKey][newDateKey] = row['Cumulative total']
+      countriesData[CurrentKey][newDateKey] = row['Cumulative total per thousand']//['Cumulative total']
     })
 
     return { data: countriesData, max: mxAcc }
@@ -157,7 +157,14 @@ class App extends Component {
     subfields.forEach(field => {
       let new_row = { name: field, amt: 5000 }
       Object.keys(exclusiveData).map(country => {
-        if(exclusiveData[country][field]) new_row[country] = parseInt(exclusiveData[country][field])
+        
+        if(exclusiveData[country][field]) {
+          new_row[country] = exclusiveData[country][field]
+
+          countries.map(c => {
+            if(c.key === country) c['testsPerM'] = exclusiveData[country][field]
+          })
+        }
       })
 
       new_data.push(new_row)
