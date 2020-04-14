@@ -42,7 +42,7 @@ class App extends Component {
     } else if(this.state.srcSelector === 'confirmed') {
       return this.state.mxAccConfirmed
     } else {
-      return this.state.mxAccTests*.5
+      return this.state.mxAccTests*.75
     }
   }
 
