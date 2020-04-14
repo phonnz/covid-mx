@@ -30,16 +30,19 @@ class App extends Component {
       srcSelector: 'confirmed',
       countrySelector: 'similar',
       refreshing: false,
-      mxAccDeaths: 61,
-      mxAccConfirmed: 1400,
+      mxAccDeaths: 300,
+      mxAccConfirmed: 5000,
+      mxAccTests: 30000
     };
   }
 
   getMaxRange() {
     if (this.state.srcSelector === 'deaths') {
       return this.state.mxAccDeaths
-    } else {
+    } else if(this.state.srcSelector === 'confirmed') {
       return this.state.mxAccConfirmed
+    } else {
+      return this.state.mxAccTests*.5
     }
   }
 
@@ -47,29 +50,29 @@ class App extends Component {
 
   changeCountriesSrc = (e, { id }) => { this.setState({ countrySelector: id }) }
 
-  changeTeleport = async() => { 
-    await this.setState({ 
+  changeTeleport = async () => {
+    await this.setState({
       teleport: !this.state.teleport,
     })
-    
+
     const updateConfirmed = this.parseData(this.state.excludedConfirmedData, this.state.fields)
     const updateDeaths = this.parseData(this.state.excludedDeathsData, this.state.fields)
 
-    this.setState({ 
+    this.setState({
       deathsData: updateDeaths.data,
       confirmedData: updateConfirmed.data,
-    }) 
+    })
   }
 
-  getFilterString(){
-    switch(this.state.countrySelector){
-      case "similar": 
+  getFilterString() {
+    switch (this.state.countrySelector) {
+      case "similar":
         return "similares en América Latina"
-      case "wd": 
+      case "wd":
         return "que consiguen disminuir o controlar la velocidad de contagio"
-      case "option": 
+      case "option":
         return "que han optado por acciones diferentes al resto del mundo"
-      case "early": 
+      case "early":
         return "que tomaron acciones en etapas tempranas de contagio"
     }
   }
@@ -80,39 +83,42 @@ class App extends Component {
 
   getTeleportedCountries() {
     let ncountries = {}
-    countries.filter(c => c['teleport'] ).map(c => ncountries[c.key] = {'key': c.key, 'teleport' : c.teleport}  )
+    countries.filter(c => c['teleport']).map(c => ncountries[c.key] = { 'key': c.key, 'teleport': c.teleport })
     return ncountries
   }
 
-  getTestData = (url) => {
-    Papa.parse(url, {
-      download: true,
-      header: true,
-      complete: results => {
+  excludeOWDData(data, fields, type) {
+    const countryKeys = countries.map(country => country.key)
+    let countriesData = {}
+    
+    
+    const excludedData = data.filter(row => countryKeys.indexOf(row['Entity'].split(' ')[0] ) >= 0)
+    const mexicoRows = excludedData.filter(row => row['Entity'].split(' ')[0] === 'Mexico')
+    let mxAcc = mexicoRows[mexicoRows.length-1]['Cumulative total'] 
+    
+    excludedData.map(row => {
+      const CurrentKey = row['Entity'].split(' ')[0]
 
-        const {
-          meta: { fields }
-        } = results;
-
-        const countryKeys = countries.map(country => country.key)
-        this.setState({
-          accTests: results.data.filter(row => countryKeys.indexOf(row['Entity']) >= 0)
-        })
-        //    const countryKeys = countries.map(country => country.key)
-        // const exclusiveData = results.data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0 )
-      }
+      // In order to create a key similar with John hopkins structure '2/2/20'
+      let newDateKey = (new Date(row['Date'])).toLocaleDateString()
+      newDateKey = newDateKey.substring(0, newDateKey.length -2)
+      
+      if(!countriesData[ CurrentKey ]) countriesData[CurrentKey] = {} 
+      countriesData[CurrentKey][newDateKey] = row['Cumulative total']
     })
 
+    return { data: countriesData, max: mxAcc }
   }
+  
 
-  excludeData(data, fields, type){
-    const currentDate = fields[fields.length-1]
+  excludeData(data, fields, type) {
+    const currentDate = fields[fields.length - 1]
     let subfields = fields.slice(5, fields.length)
     const countryKeys = countries.map(country => country.key)
 
     let exclusiveData = data.filter(row => countryKeys.indexOf(row['Country/Region']) >= 0)
     exclusiveData = _(exclusiveData).groupBy('Country/Region').value()
-    
+
     exclusiveData = Object.keys(exclusiveData).map(country => {
       let zip_country = { 'key': country, }
 
@@ -123,7 +129,7 @@ class App extends Component {
         }
         zip_country[day] = sum
 
-        if(day === currentDate){
+        if (day === currentDate) {
           countries[_.findIndex(countries, c => { return c.key === country })][type] = sum
         }
 
@@ -135,40 +141,57 @@ class App extends Component {
     return exclusiveData
   }
 
-  extendTimelapse(fields){
-    let current = new Date(fields[fields.length-1])
-    for(var i=0;i<5;i++){
+  extendTimelapse(fields) {
+    let current = new Date(fields[fields.length - 1])
+    for (var i = 0; i < 5; i++) {
       fields.push((new Date(current.setDate(current.getDate() + 1))).toLocaleDateString())
     }
     return fields
   }
 
+  parseOWDData(exclusiveData) {
+    let new_data = []
+    const fields = [...this.state.fields]
+    let subfields = fields.slice(50, fields.length)
+    
+    subfields.forEach(field => {
+      let new_row = { name: field, amt: 5000 }
+      Object.keys(exclusiveData).map(country => {
+        if(exclusiveData[country][field]) new_row[country] = parseInt(exclusiveData[country][field])
+      })
+
+      new_data.push(new_row)
+    })
+
+    return new_data
+  }
+
   parseData(exclusiveData, fields) {
     const currentDate = fields[fields.length - 1]
     const teleportedCountries = this.getTeleportedCountries()
-    
+
 
     const mxAcc = parseInt((exclusiveData.filter(row => row.key === 'Mexico'))[0][currentDate])
     let new_data = []
 
-    let subfields = fields.slice(61,fields.length)
-    
-    if(this.state.teleport){
+    let subfields = fields.slice(61, fields.length)
+
+    if (this.state.teleport) {
       subfields = this.extendTimelapse(subfields)
     }
 
     subfields.forEach(field => {
       let new_row = { name: field, amt: 1000 }
       exclusiveData.map(countryRow => {
-        if(this.state.teleport && teleportedCountries[countryRow.key]){
+        if (this.state.teleport && teleportedCountries[countryRow.key]) {
           const teleDate = new Date(field)
-          let teleported = (new Date(teleDate.setDate(teleDate.getDate() - teleportedCountries[countryRow.key].teleport))).toLocaleDateString() 
-          
-          new_row[countryRow.key] = countryRow[teleported.substring(0, teleported.length -2)]
-        }else if(countryRow.key === "Mexico"){
+          let teleported = (new Date(teleDate.setDate(teleDate.getDate() - teleportedCountries[countryRow.key].teleport))).toLocaleDateString()
+
+          new_row[countryRow.key] = countryRow[teleported.substring(0, teleported.length - 2)]
+        } else if (countryRow.key === "Mexico") {
           new_row["mx-centinela"] = countryRow[field] * 8
           new_row[countryRow.key] = countryRow[field]
-        }else{
+        } else {
           new_row[countryRow.key] = countryRow[field]
         }
       })
@@ -205,7 +228,6 @@ class App extends Component {
       download: true,
       header: true,
       complete: results => {
-
         const {
           meta: { fields }
         } = results;
@@ -225,18 +247,41 @@ class App extends Component {
     });
   }
 
+  getTestData = () => {  
+    Papa.parse("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/testing/covid-testing-all-observations.csv", {
+      download: true,
+      header: true,
+      complete: results => {
+        const {
+          meta: { fields }
+        } = results;
+        
+        const {data, max } = this.excludeOWDData(results.data, fields, 'tests')
+        const testsData = this.parseOWDData(data, this.state.fields)
+
+        this.setState({
+          excludedTestData: data,
+          testsData,
+          mxAccTests: max,
+        })
+      }
+    })
+  }
+
   getDataset() {
     if (this.state.srcSelector === 'deaths') {
       return this.state.deathsData
-    } else {
+    } else if(this.state.srcSelector === 'confirmed'){
       return this.state.confirmedData
+    }else{
+      return this.state.testsData
     }
   }
 
-  parseTableData(){
+  parseTableData() {
     return _(countries)
-    .orderBy([ 'populationDensity', 'medianAge', ],[ 'desc', 'asc',])
-    .value()
+      .orderBy(['populationDensity', 'medianAge',], ['desc', 'asc',])
+      .value()
 
   }
 
@@ -244,8 +289,8 @@ class App extends Component {
   componentDidMount() {
     this.getDeathsData(hopkins_deaths)
     this.getConfirmedData(hopkins_confirmed)
+    this.getTestData()
     this.parseTableData()
-    // this.getTestData(owid_test_m) 
   }
 
   render() {
@@ -253,11 +298,13 @@ class App extends Component {
       currentDate,
       mxAccDeaths,
       mxAccConfirmed,
+      mxAccTests,
       srcSelector,
     } = this.state;
 
     const nameTabA = `🇲🇽 ${mxAccDeaths} fallecidos`
     const nameTabB = `🇲🇽 ${mxAccConfirmed} confirmados`
+    const nameTabC = `🇲🇽 ${mxAccTests} tests`
 
     const currentStringDate = `Actualizado al ${(new Date(currentDate)).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`
 
@@ -276,12 +323,18 @@ class App extends Component {
             active={srcSelector === 'confirmed'}
             onClick={this.changeDataSrc}
           />
+          <Menu.Item
+            id='tests'
+            name={nameTabC}
+            active={srcSelector === 'tests'}
+            onClick={this.changeDataSrc}
+          />
         </Menu>
         <Grid stackable>
           <Grid.Row>
             <Grid.Column width={16}>
               <Chart data={this.getDataset()} countries={this.getChartCountries()} date={currentDate} max={this.getMaxRange()} />
-              
+
             </Grid.Column>
             <Grid.Column width={12}>
               <Menu inverted>
@@ -297,7 +350,7 @@ class App extends Component {
                   icon='check circle'
                   active={this.state.countrySelector === 'wd'}
                   onClick={this.changeCountriesSrc}
-                  />
+                />
                 <Menu.Item
                   id='option'
                   icon='warning sign'
@@ -314,12 +367,12 @@ class App extends Component {
                 />
               </Menu>
               <h3>Covid-19: México comparado con países {this.getFilterString()} </h3>
-              <span className="ui header inverted">Traslado </span> <Checkbox toggle checked={this.state.teleport} onChange={this.changeTeleport} />{<br/>}
-              <small> *El botón de "Traslado", coloca las curvas de los países para coincidir alrededor de 150 casos confirmados para realizar la comparativa</small>{<br/>}
-              <small>Se muestran 5 días extras al actual para observar la tendencia que siguió que la curva de los países trasladados </small>{<br/>}
-              <small>Desactivar el botón para observar los casos en las fechas actuales</small>{<br/>}
-              <small>{currentStringDate}</small>{<br/>}
-              
+              <span className="ui header inverted">Traslado </span> <Checkbox toggle checked={this.state.teleport} onChange={this.changeTeleport} />{<br />}
+              <small> *El botón de "Traslado", coloca las curvas de los países para coincidir alrededor de 150 casos confirmados para realizar la comparativa</small>{<br />}
+              <small>Se muestran 5 días extras al actual para observar la tendencia que siguió que la curva de los países trasladados </small>{<br />}
+              <small>Desactivar el botón para observar los casos en las fechas actuales</small>{<br />}
+              <small>{currentStringDate}</small>{<br />}
+
             </Grid.Column>
           </Grid.Row>
           <Grid.Row>
