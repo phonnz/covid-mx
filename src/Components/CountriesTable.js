@@ -10,14 +10,14 @@ const CountriesTable = (props) => {
         <Table inverted unstackable>
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell>País</Table.HeaderCell>
-                    <Table.HeaderCell>*Población (Millones)</Table.HeaderCell>
-                    <Table.HeaderCell>**Confirmados</Table.HeaderCell>
-                    <Table.HeaderCell>***Fallecidos</Table.HeaderCell>
+                    <Table.HeaderCell>País </Table.HeaderCell>
+                    <Table.HeaderCell>* Población (Millones)</Table.HeaderCell>
+                    <Table.HeaderCell>** Confirmados</Table.HeaderCell>
+                    <Table.HeaderCell>*** Fallecidos</Table.HeaderCell>
                     <Table.HeaderCell>Media de Edad</Table.HeaderCell>
                     <Table.HeaderCell>Densidad Poblacional km² </Table.HeaderCell>
-                    {/* <Table.HeaderCell>Densidad Poblacional Capital</Table.HeaderCell> */}
                     <Table.HeaderCell>Pruebas M Habitantes</Table.HeaderCell>
+                    <Table.HeaderCell>Camas de hospital</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
@@ -53,9 +53,8 @@ const CountriesTable = (props) => {
                         <Table.Cell textAlign='right'>{country.medianAge}</Table.Cell>
                         <Table.Cell textAlign='right'>
                             { country.populationDensity !== 0 && parseInt(country.populationDensity) }</Table.Cell>
-                        {/* <Table.Cell textAlign='right'>
-                            { country.capitalDensity !== 0 && country.capitalDensity }</Table.Cell> */}
-                        <Table.Cell textAlign='right'>{country.testsPerM}</Table.Cell>
+                            <Table.Cell textAlign='right'>{country.testsPerM}</Table.Cell>
+                        <Table.Cell textAlign='right'>{country.hospitalBedsm}</Table.Cell>
                     </Table.Row>
                     )
                 }
