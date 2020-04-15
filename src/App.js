@@ -13,9 +13,7 @@ const hopkins_confirmed =
   'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'
 
 const hopkins_deaths = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv'
-const owid_tests_date = 'https://opendata.ecdc.europa.eu/covid19/casedistribution/csv'
-const owid_test_m = 'https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/COVID-19%20Tests%20per%20million%20people/COVID-19%20Tests%20per%20million%20people.csv'
-
+const owd_tests = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/testing/covid-testing-all-observations.csv"
 
 class App extends Component {
   constructor(props) {
@@ -88,16 +86,15 @@ class App extends Component {
   }
 
   excludeOWDData(data, fields, type) {
-    const countryKeys = countries.map(country => country.key)
+    let countryKeys = (countries.map(country => country.key)).concat(countries.filter(country => country.owdname).map(country => country.owdname ))
     let countriesData = {}
     
-    
-    const excludedData = data.filter(row => countryKeys.indexOf(row['Entity'].split(' ')[0] ) >= 0)
-    const mexicoRows = excludedData.filter(row => row['Entity'].split(' ')[0] === 'Mexico')
+    const excludedData = data.filter(row => countryKeys.indexOf(row['Entity'].split(' -')[0] ) >= 0 )
+    const mexicoRows = excludedData.filter(row => row['Entity'].split(' -')[0] === 'Mexico')
     let mxAcc = mexicoRows[mexicoRows.length-1]['Cumulative total per thousand']//['Cumulative total'] 
     
     excludedData.map(row => {
-      const CurrentKey = row['Entity'].split(' ')[0]
+      const CurrentKey = row['Entity'].split(' -')[0]
 
       // In order to create a key similar with John hopkins structure '2/2/20'
       let newDateKey = (new Date(row['Date'])).toLocaleDateString()
@@ -162,7 +159,7 @@ class App extends Component {
           new_row[country] = exclusiveData[country][field]
 
           countries.map(c => {
-            if(c.key === country) c['testsPerM'] = exclusiveData[country][field]
+            if(c.key === country || c.owdname === country ) c['testsPerM'] = exclusiveData[country][field]
           })
         }
       })
@@ -254,8 +251,8 @@ class App extends Component {
     });
   }
 
-  getTestData = () => {  
-    Papa.parse("https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/testing/covid-testing-all-observations.csv", {
+  getTestData = (src) => {  
+    Papa.parse(src, {
       download: true,
       header: true,
       complete: results => {
@@ -296,7 +293,7 @@ class App extends Component {
   componentDidMount() {
     this.getDeathsData(hopkins_deaths)
     this.getConfirmedData(hopkins_confirmed)
-    this.getTestData()
+    this.getTestData(owd_tests)
     this.parseTableData()
   }
 
@@ -393,7 +390,7 @@ class App extends Component {
           <p>Cualquier comentario, duda o sugerencia puedes contactarme <a href="https://twitter.com/phonnz/" target="_blank">@phonnz</a> o mirar el código <a href="https://github.com/phonnz/covid-mx" target="_blank" rel="noopener noreferrer">Github</a></p>
           <p>Inspirado en la prueba de <a href="https://snack.expo.io/@xnt/coronavirus-ca" target="_blank" rel="noopener noreferrer">@xnt</a> el dashboard de <a href="https://covid.sdelmont.com/" target="_blank" rel="noopener noreferrer">@sd</a></p>
           <p><a href="https://experience.arcgis.com/experience/685d0ace521648f8a5beeeee1b9125cd" target="_blank" rel="noopener noreferrer">WHO</a> | <a href="https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6" target="_blank" rel="noopener noreferrer">JHU</a> | <a href="https://covid19.isciii.es/" target="_blank" rel="noopener noreferrer">ISC</a></p>
-          <p>Datos de: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank" rel="noopener noreferrer">JHU</a> <a href="https://ourworldindata.org/" target="_blank" rel="noopener noreferrer">OWD</a></p>
+          <p>Datos de: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank" rel="noopener noreferrer">JHU</a> <a href="https://github.com/owid/covid-19-data" target="_blank" rel="noopener noreferrer">OWD</a></p>
         </Container>
       </Container>
 

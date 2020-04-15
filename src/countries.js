@@ -33,6 +33,7 @@ module.exports.countries = [
   },
   {
     key: "US",
+    owdname: 'United States',
     name: "US",
     color: "red",
     similar: false,
@@ -255,6 +256,7 @@ module.exports.countries = [
   },
   {
     key: "Taiwan*",
+    owdname: "Taiwan",
     name: "Taiwan",
     color: "#84e101",
     similar: false,
@@ -270,6 +272,7 @@ module.exports.countries = [
   },
   {
     key: "Korea, South",
+    owdname: "South Korea",
     name: "Korea del sur",
     color: "#E0B83B",
     similar: false,
