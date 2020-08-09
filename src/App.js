@@ -194,7 +194,7 @@ class App extends Component {
 
           new_row[countryRow.key] = countryRow[teleported.substring(0, teleported.length - 2)]
         } else if (countryRow.key === "Mexico") {
-          new_row["mx-centinela"] = countryRow[field] * 8
+          new_row["mx-centinela"] = countryRow[field] * 4
           new_row[countryRow.key] = countryRow[field]
         } else {
           new_row[countryRow.key] = countryRow[field]

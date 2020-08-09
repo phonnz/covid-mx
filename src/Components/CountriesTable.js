@@ -36,7 +36,7 @@ const CountriesTable = (props) => {
                         <Table.Row active={thispositive(country.key)}>
                             <Table.Cell>{country.name}
                             { country.teleport && 
-                                ` (+${country.teleport} )`
+                                ` (+${country.teleport})`
                             }
                             </Table.Cell>
                         <Table.Cell textAlign='right'>{populationString} M</Table.Cell>
