@@ -159,7 +159,7 @@ class App extends Component {
         if(exclusiveData[country][field]) {
           new_row[country] = exclusiveData[country][field]
 
-          countries.map(c => {
+          countries.forEach(c => {
             if(c.key === country || c.owdname === country ) c['testsPerM'] = exclusiveData[country][field]
           })
         }
@@ -187,7 +187,7 @@ class App extends Component {
 
     subfields.forEach(field => {
       let new_row = { name: field, amt: 1000 }
-      exclusiveData.map(countryRow => {
+      exclusiveData.forEach(countryRow => {
         if (this.state.teleport && teleportedCountries[countryRow.key]) {
           const teleDate = new Date(field)
           let teleported = (new Date(teleDate.setDate(teleDate.getDate() - teleportedCountries[countryRow.key].teleport))).toLocaleDateString()
@@ -388,7 +388,7 @@ class App extends Component {
         </Grid>
         <Divider />
         <Container text>
-          <p>Cualquier comentario, duda o sugerencia puedes contactarme <a href="https://twitter.com/phonnz/" target="_blank">@phonnz</a> o mirar el código <a href="https://github.com/phonnz/covid-mx" target="_blank" rel="noopener noreferrer">Github</a></p>
+          <p>Cualquier comentario, duda o sugerencia puedes contactarme <a href="https://twitter.com/phonnz/" target="_blank" rel="noopener noreferrer">@phonnz</a> o mirar el código <a href="https://github.com/phonnz/covid-mx" target="_blank" rel="noopener noreferrer">Github</a></p>
           <p>Inspirado en la prueba de <a href="https://snack.expo.io/@xnt/coronavirus-ca" target="_blank" rel="noopener noreferrer">@xnt</a> el dashboard de <a href="https://covid.sdelmont.com/" target="_blank" rel="noopener noreferrer">@sd</a>, <a href="https://aatishb.com/covidtrends/" target="_blank" rel="noopener noreferrer">covidtrends</a> </p>
           <p><a href="https://experience.arcgis.com/experience/685d0ace521648f8a5beeeee1b9125cd" target="_blank" rel="noopener noreferrer">WHO</a> | <a href="https://www.arcgis.com/apps/opsdashboard/index.html#/bda7594740fd40299423467b48e9ecf6" target="_blank" rel="noopener noreferrer">JHU</a> | <a href="https://covid19.isciii.es/" target="_blank" rel="noopener noreferrer">ISC</a></p>
           <p>Datos de: <a href="https://github.com/CSSEGISandData/COVID-19" target="_blank" rel="noopener noreferrer">JHU</a> <a href="https://github.com/owid/covid-19-data" target="_blank" rel="noopener noreferrer">OWD</a></p>
