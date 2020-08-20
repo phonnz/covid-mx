@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Checkbox, Container, Grid, Divider, Label, Menu } from 'semantic-ui-react'
+import { Checkbox, Container, Grid, Divider, Menu } from 'semantic-ui-react'
 import Papa from 'papaparse'
 import Chart from './Components/Chart';
 import CountriesTable from './Components/CountriesTable';
@@ -14,7 +14,7 @@ const hopkins_confirmed =
 
 const hopkins_deaths = 'https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv'
 const owd_tests = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/testing/covid-testing-all-observations.csv"
-const owd_healthcare_capacity = 'https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Healthcare%20capacity%20(OECD%2C%202020)/Healthcare%20capacity%20(OECD%2C%202020).csv'
+// const owd_healthcare_capacity = 'https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Healthcare%20capacity%20(OECD%2C%202020)/Healthcare%20capacity%20(OECD%2C%202020).csv'
 
 class App extends Component {
   constructor(props) {
@@ -73,6 +73,8 @@ class App extends Component {
         return "que han optado por acciones diferentes al resto del mundo"
       case "early":
         return "que tomaron acciones en etapas tempranas de contagio"
+      default:
+        return "similares en América Latina"
     }
   }
 
@@ -94,7 +96,7 @@ class App extends Component {
     const mexicoRows = excludedData.filter(row => row['Entity'].split(' -')[0] === 'Mexico')
     let mxAcc = mexicoRows[mexicoRows.length-1]['Cumulative total per thousand']//['Cumulative total'] 
     
-    excludedData.map(row => {
+    excludedData.forEach(row => {
       const CurrentKey = row['Entity'].split(' -')[0]
 
       // In order to create a key similar with John hopkins structure '2/2/20'
@@ -120,7 +122,7 @@ class App extends Component {
     exclusiveData = Object.keys(exclusiveData).map(country => {
       let zip_country = { 'key': country, }
 
-      subfields.map(day => {
+      subfields.forEach(day => {
         let sum = 0
         for (var i = 0; i < exclusiveData[country].length; i++) {
           sum += parseInt(exclusiveData[country][i][day])
@@ -154,7 +156,7 @@ class App extends Component {
     
     subfields.forEach(field => {
       let new_row = { name: field, amt: 5000 }
-      Object.keys(exclusiveData).map(country => {
+      Object.keys(exclusiveData).forEach(country => {
         
         if(exclusiveData[country][field]) {
           new_row[country] = exclusiveData[country][field]
